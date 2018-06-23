@@ -66,6 +66,7 @@ return [
 
     'model_locations' => [
         'app/Personals/User',
+        'app/Personals/Ad',
     ],
 
 
