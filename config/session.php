@@ -44,7 +44,7 @@ return [
     |
     */
 
-    'encrypt' => false,
+    'encrypt' => !env('APP_DEBUG', false), // always encrypt if not in debug-mode
 
     /*
     |--------------------------------------------------------------------------
