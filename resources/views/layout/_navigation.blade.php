@@ -70,26 +70,6 @@
     </a>
 </nav>
 
-
-<a class="navbar-item" href="https://bulma.io">
-
-</a>
-
-<div class="navbar-menu" id="navMenu">
-    <div class="navbar-item">
-
-
-    </div>
-</div>
-</div>
-</div>
-
-<div class="navbar-end">
-    <div class="navbar-item  is-right">
-    </div>
-</div>
-</nav>
-
 <script language="JavaScript">
   function _ (id) {
     return document.getElementById(id)
