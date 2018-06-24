@@ -1,0 +1,16 @@
+<?php
+
+namespace Personals\Ad;
+
+use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+
+class AdController extends Controller
+{
+    public function index()
+    {
+        $viewableAds = Ad::where('status', 'active')->where('expires_at', '>', Carbon::now())->take(30)->get();
+
+        return view('index', ['ads' => $viewableAds]);
+    }
+}

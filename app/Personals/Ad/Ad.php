@@ -2,6 +2,7 @@
 
 namespace Personals\Ad;
 
+use Cocur\Slugify\Slugify;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string              $author_country
  * @property boolean             $commercial
  * @property integer             $status
+ * @property \Carbon\Carbon      $expires_at
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @mixin \Eloquent
@@ -37,5 +39,17 @@ class Ad extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+
+    public function getSlug()
+    {
+        return (new Slugify())->slugify($this->title . " " . $this->id);
+    }
+
+
+    public function getShortenedText()
+    {
+        return strlen($this->text) > 256 ? substr($this->text, 0, 230) . "..." : $this->text;
     }
 }

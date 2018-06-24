@@ -53,10 +53,18 @@
 <body>
 @include('layout._navigation')
 
-<div class="flex-center position-ref full-height">
-    <div class="content">
+<div class="position-ref">
+    <div class="content" id="content">
         @yield('content')
     </div>
 </div>
+
+<script language="JavaScript">
+  jQuery(document).ready(function ($) {
+    $('.clickable-row').click(function () {
+      window.location = $(this).data('href')
+    })
+  })
+</script>
 </body>
 </html>

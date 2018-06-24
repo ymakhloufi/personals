@@ -25,7 +25,8 @@ class CreateAdsTable extends Migration
             $table->string('author_town', 32)->nullable();
             $table->string('author_country', 32);
             $table->boolean('commercial');
-            $table->softDeletes();
+            $table->integer('status');
+            $table->timestamp('expires_at');
             $table->timestamps();
         });
     }
