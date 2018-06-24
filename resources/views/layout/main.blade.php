@@ -60,6 +60,10 @@
 </div>
 
 <script language="JavaScript">
+  function _ (id) {
+    return document.getElementById(id)
+  }
+
   jQuery(document).ready(function ($) {
     $('.clickable-row').click(function () {
       window.location = $(this).data('href')

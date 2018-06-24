@@ -4,9 +4,10 @@
 
 @section('content')
 
-    <div class="jumbotron jumbotron-fluid p-4">
+    <div class="jumbotron jumbotron-fluid p-4"
+         style="color: #444; background: #fceabb; background: linear-gradient(10deg, #f7d785 0%,#fccd4d 100%);">
         <h1 class="text-lg-center">Welcome to {{config('app.name')}}</h1>
-        <p class="lead">This is a 100% free portal to post, read and answer personal ads from people around you!</p>
+        <h2 class="lead">{{config('app.description')}}</h2>
     </div>
 
     <div class="container">
