@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
             crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
@@ -27,26 +26,13 @@
             background-color: #fff;
             color: #636b6f;
             font-family: 'Tahoma', sans-serif;
+            font-size: 11pt;
             height: 100vh;
             margin: 0;
         }
 
-        .full-height {
-            height: 100vh;
-        }
-
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
-
         .position-ref {
             position: relative;
-        }
-
-        .content {
-            text-align: center;
         }
     </style>
 </head>
@@ -54,7 +40,7 @@
 @include('layout._navigation')
 
 <div class="position-ref">
-    <div class="content" id="content">
+    <div id="content">
         @yield('content')
     </div>
 </div>

@@ -44,7 +44,7 @@ class Ad extends Model
 
     public function getSlug()
     {
-        return (new Slugify())->slugify($this->title . " " . $this->id);
+        return (new Slugify())->slugify($this->title);
     }
 
 

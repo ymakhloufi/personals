@@ -47,7 +47,7 @@
         <img src="{{asset('/img/logo_white.png')}}" height="28">
         <span class="d-none d-sm-inline"> Personals</span>
     </a>
-    <form action="/search" method="get" id="search-form" class="search form-inline">
+    <form action="/ads/search" method="get" id="search-form" class="search form-inline">
         <i class="fa fa-search" onclick="
                             if(_('search-input').value !== ''){
                               _('search-form').submit();
@@ -64,7 +64,7 @@
         />
         <i class="fa fa-times" onclick="_('search-form').reset();"></i>
     </form>
-    <a class="btn btn-warning" href="/write">
+    <a class="btn btn-warning" href="/ads/write">
         <span class="icon"><i class="fa fa-pencil-alt"></i></span>
         <span class="d-none d-sm-inline"> {{_('Write Ad')}}</span>
     </a>
