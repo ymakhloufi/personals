@@ -11,6 +11,12 @@ class AdController extends Controller
     {
         $viewableAds = Ad::where('status', 'active')->where('expires_at', '>', Carbon::now())->take(30)->get();
 
-        return view('index', ['ads' => $viewableAds]);
+        return view('ads.index', ['ads' => $viewableAds]);
+    }
+
+
+    public function write()
+    {
+        return view('ads.write');
     }
 }
