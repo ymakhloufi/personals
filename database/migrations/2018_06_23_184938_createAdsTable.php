@@ -17,16 +17,16 @@ class CreateAdsTable extends Migration
             $table->string('title', 64)->index();
             $table->text('text');
             $table->string('author_name', 16);
-            $table->integer('author_age');
-            $table->string('author_email', 64);
+            $table->integer('author_age')->index();
+            $table->string('author_email', 64)->index();
             $table->string('author_phone', 32)->nullable();
             $table->boolean('author_phone_whatsapp');
             $table->integer('author_zip')->nullable();
-            $table->string('author_town', 32)->nullable();
-            $table->string('author_country', 32);
+            $table->string('author_town', 32)->nullable()->index();
+            $table->string('author_country', 32)->index();
             $table->boolean('commercial');
-            $table->integer('status');
-            $table->timestamp('expires_at');
+            $table->integer('status')->index();
+            $table->timestamp('expires_at')->index();
             $table->timestamps();
         });
     }
