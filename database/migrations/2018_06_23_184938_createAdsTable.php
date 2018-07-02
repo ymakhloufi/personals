@@ -23,7 +23,7 @@ class CreateAdsTable extends Migration
             $table->boolean('author_phone_whatsapp');
             $table->integer('author_zip')->nullable();
             $table->string('author_town', 32)->nullable()->index();
-            $table->string('author_country', 32)->index();
+            $table->string('author_country', 2)->index();
             $table->boolean('commercial');
             $table->integer('status')->index();
             $table->timestamp('expires_at')->index();

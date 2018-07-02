@@ -18,6 +18,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"
             integrity="sha384-u/bQvRA/1bobcXlcEYpsEdFVK/vJs3+T+nXLsBYJthmdBuavHvAW6UsmqO2Gd/F9"
             crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/checbox.css">
     <title>@yield('title')</title>
 
     <!-- Styles -->
@@ -46,15 +47,15 @@
 </div>
 
 <script language="JavaScript">
-  function _ (id) {
-    return document.getElementById(id)
-  }
+    function _ (id) {
+        return document.getElementById(id);
+    }
 
-  jQuery(document).ready(function ($) {
-    $('.clickable-row').click(function () {
-      window.location = $(this).data('href')
-    })
-  })
+    jQuery(document).ready(function ($) {
+        $('.clickable-row').click(function () {
+            window.location = $(this).data('href');
+        });
+    });
 </script>
 </body>
 </html>

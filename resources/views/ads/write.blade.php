@@ -34,78 +34,104 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12" style="font-size: 14pt; font-weight: bold; ">
+                        <div class="col-sm-12 mt-4" style="font-size: 14pt; font-weight: bold; ">
                             <span>Contact Details</span>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <input class="form-control form-required"
                                    type="email"
                                    name="author_email"
                                    placeholder="{{__('Your Email')}}"
                                    maxlength="64"/>
                         </div>
-                        <div class="col-sm-6">
-                            <input class="form-control"
-                                   type="tel"
-                                   name="author_phone"
-                                   placeholder="{{__('Phone (e.g. +1...)')}}"
-                                   pattern="[\+]\d{1,3}[\d\.\-\ ]{6,30}"
-                                   oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                   maxlength="32"/>
-                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div style="height: 34px;">
-                                <input type="checkbox"
-                                       name="author_phone_whatsapp"
-                                       id="author_phone_whatsapp"
-                                       pattern="[\+]\d{6,32}"
-                                       oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                       maxlength="32"/>
-                                <label for="author_phone_whatsapp">Whatsapp</label>
+                    <div class="row mt-2">
+                        <div class="col-sm-7">
+                            <input class="form-control"
+                                   type="text"
+                                   id="phone_number"
+                                   placeholder="{{__('Your Phone Number')}}"
+                                   oninput="set_phone();"
+                                   maxlength="32"/>
+                            <input type="hidden" name="author_phone" id="author_phone">
+                        </div>
+                        <div class="col-sm-5" style="margin-left: 0; padding-left: 0;">
+                            <div class="form-control" style="border: 0;">
+                                <div class=" checkbox checbox-switch switch-warning">
+                                    <label style="cursor:pointer; white-space: nowrap;">
+                                        <input type="checkbox" name="author_phone_whatsapp">
+                                        <span></span>
+                                        <i class="fab fa-whatsapp fa-1x"></i> Whatsapp
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-4">
-                            <select name="country" class="form-control">
-                                <option selected disabled value=""></option>
-                                @foreach(config('countries') as $code => $set)
-                                    <option value="{{$code}}">{{ucwords(strtolower($set['name']))}}</option>
+                        <div class="col-sm-12 mt-4" style="font-size: 14pt; font-weight: bold; ">
+                            <span>Location</span>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="author_zip" placeholder="{{__("ZIP Code")}}"/>
+                        </div>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" name="author_town"
+                                   placeholder="{{__("Your Town")}}"/>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-sm-12">
+                            <select class="form-control" name="author_country" id="author_country">
+                                @foreach(config('countries.all') as $code => $set)
+                                    <option value="{{$code}}"
+                                            @if(config('countries.default') === $code) selected @endif>
+                                        {{ucwords(strtolower($set['name']))}}
+                                    </option>
                                 @endforeach
                             </select>
-                            <input class="form-control form-required"
-                                   type="email"
-                                   name="author_email"
-                                   placeholder="Your Email"
-                                   maxlength="64"/>
-                        </div>
-                        <div class="col-sm-4">
-                            <input class="form-control"
-                                   type="tel"
-                                   name="author_phone"
-                                   placeholder="Your Phone Number"
-                                   oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                   maxlength="32"/>
-                        </div>
-                        <div class="col-sm-4">
-                            <input class="form-control"
-                                   type="tel"
-                                   name="author_phone"
-                                   placeholder="Your Phone Number"
-                                   oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                   maxlength="2"/>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <textarea name="text" id="text" cols="30" rows="10" class="form-control"></textarea>
+                    <div class="row">
+                        <div class="col-sm-12" style="font-size: 14pt; font-weight: bold; ">
+                            <span>{{__("Your Ad")}}</span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <input type="text" name="title" class="form-control"
+                                   placeholder="{{__("Title of Your Ad")}}"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                    <textarea name="text" id="text" rows="11" class="form-control"
+                              placeholder="{{__("Your Ad")}}"></textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <button>Submit</button>
+            <div class="row mt-4" align="center">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-warning">{{__('Submit the Ad')}}</button>
+                </div>
+            </div>
         </form>
     </div>
+
+    <style>
+        .fa-whatsapp {
+            color: #fff;
+            background: linear-gradient(#25d366, #25d366) 1px 84%/4px 4px no-repeat,
+            radial-gradient(circle at center, #25d366 63%, transparent 0);
+            stroke: #1b1e21;
+            stroke-width: 2px;
+        }
+    </style>
 @endsection

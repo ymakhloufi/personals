@@ -19,4 +19,10 @@ class AdController extends Controller
     {
         return view('ads.write');
     }
+
+
+    public function store(WrireAdRequest $request)
+    {
+
+    }
 }
