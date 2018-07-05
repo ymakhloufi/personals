@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default' => env('COUNTRIES_DEFAULT', 'US'),
+    'default' => env('DEFAULT_COUNTRY_CODEg', 'US'),
     'all'     => [
         'AD' => ['name' => 'ANDORRA', 'code' => '376'],
         'AE' => ['name' => 'UNITED ARAB EMIRATES', 'code' => '971'],

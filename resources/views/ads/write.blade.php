@@ -20,6 +20,7 @@
                                    type="text"
                                    name="author_name"
                                    placeholder="{{__('Your Name')}}"
+                                   required
                                    maxlength="16"/>
                         </div>
                         <div class="col-sm-4">
@@ -44,31 +45,28 @@
                                    type="email"
                                    name="author_email"
                                    placeholder="{{__('Your Email')}}"
+                                   required
                                    maxlength="64"/>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col-sm-7">
                             <input class="form-control"
-                                   type="tel"
+                                   type="text"
                                    name="author_phone"
-                                   placeholder="{{__('Phone (e.g. +1...)')}}"
-                                   pattern="[\+]\d{1,3}[\d\.\-\ ]{6,30}"
-                                   oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                   placeholder="{{__('Your Phone Number')}}"
                                    maxlength="32"/>
+                            <input type="hidden" name="author_phone" id="author_phone">
                         </div>
-                        <div class="col-sm-5">
-                            <div class="form-control" style="height: 34px; white-space: nowrap;">
-                                <input type="checkbox"
-                                       name="author_phone_whatsapp"
-                                       id="author_phone_whatsapp"
-                                       pattern="[\+]\d{6,32}"
-                                       oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                       maxlength="32"/>
-                                <label class="ml-2" for="author_phone_whatsapp">
-                                    <i class="text-success fab fa-whatsapp" aria-hidden="true"></i>
-                                    Whatsapp
-                                </label>
+                        <div class="col-sm-5" style="margin-left: 0; padding-left: 0;">
+                            <div class="form-control" style="border: 0;">
+                                <div class=" checkbox checbox-switch switch-warning">
+                                    <label style="cursor:pointer; white-space: nowrap;">
+                                        <input type="checkbox" name="author_phone_whatsapp">
+                                        <span></span>
+                                        <i class="fab fa-whatsapp fa-1x"></i> Whatsapp
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -90,7 +88,7 @@
                     <div class="row mt-2 mb-4">
                         <div class="col-sm-12">
                             <select name="country" class="form-control">
-                                <option selected disabled value=""></option>
+                                <option selected value="">Anywhere</option>
                                 @foreach(config('countries.all') as $code => $set)
                                     <option value="{{$code}}" {{config('countries.default') === $code ? 'selected' : ''}}>{{ucwords(strtolower($set['name']))}}</option>
                                 @endforeach
@@ -177,4 +175,14 @@
             }
         }
     </script>
+
+    <style>
+        .fa-whatsapp {
+            color: #fff;
+            background: linear-gradient(#25d366, #25d366) 1px 84%/4px 4px no-repeat,
+            radial-gradient(circle at center, #25d366 63%, transparent 0);
+            stroke: #1b1e21;
+            stroke-width: 2px;
+        }
+    </style>
 @endsection
