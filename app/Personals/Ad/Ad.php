@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property integer             $id
  * @property string              $title
+ * @property string              $slug
  * @property string              $text
  * @property string              $author_name
  * @property string              $author_email
@@ -42,14 +43,32 @@ class Ad extends Model
     }
 
 
-    public function getSlug()
-    {
-        return (new Slugify())->slugify($this->title);
-    }
-
-
     public function getShortenedText()
     {
         return strlen($this->text) > 256 ? substr($this->text, 0, 230) . "..." : $this->text;
+    }
+
+
+    public function setSlug(bool $saving = false)
+    {
+        $baseSlug = $slug = (new Slugify())->slugify($this->title);
+        for ($i = 1; static::where('slug', $slug)->where('id', '!=', $this->id)->exists(); $i++) {
+            $slug = $baseSlug . "-" . $i;
+        }
+
+        $this->slug = $slug;
+
+        if ($saving) {
+            $this->save();
+        }
+    }
+
+
+    public static function boot()
+    {
+        parent::boot();
+        static::creating(function (Ad $ad) {
+            $ad->setSlug();
+        });
     }
 }

@@ -17,6 +17,6 @@ class AdController extends Controller
 
     public function write()
     {
-        return view('ads.write');
+        return view('ads.write', ['countries' => config('countries')]);
     }
 }
