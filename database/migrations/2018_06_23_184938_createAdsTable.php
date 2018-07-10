@@ -15,10 +15,10 @@ class CreateAdsTable extends Migration
         Schema::create('ads', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 64)->index();
-            $table->string('slug', 96)->index();
+            $table->string('slug', 96)->unique()->index();
             $table->text('text');
-            $table->string('author_name', 16);
-            $table->integer('author_age')->index();
+            $table->string('author_name', 32);
+            $table->integer('author_age')->nullable()->index();
             $table->string('author_email', 64)->index();
             $table->string('author_phone', 32)->nullable();
             $table->boolean('author_phone_whatsapp');

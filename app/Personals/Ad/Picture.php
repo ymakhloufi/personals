@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property integer $id
  * @property integer $ad_id
+ * @property string  $url
  * @mixin \Eloquent
  */
 class Picture extends Model

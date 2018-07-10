@@ -9,6 +9,9 @@
             width: 66px;
             height: 66px;
             border: 1px solid #aaa;
+            padding-left: 7px;
+            padding-top: 3px;
+            color: #fde8a1;
         }
 
         .img-preview {
@@ -47,20 +50,25 @@
         <h2 class="lead">{{config('app.description')}}</h2>
     </div>
 
+
+    @if(session()->has('success'))
+        <div class="alert alert-success m-5 text-center">{{session()->get('success')}}</div>
+    @endif
+
     <div class="container">
         <table class="table table-hover">
             <tbody>
             @foreach($ads as $ad)
-                <tr class="clickable-row" style="cursor: pointer;" data-href='ads/{{$ad->id}}/{{$ad->getSlug()}}'>
+                <tr class="clickable-row" style="cursor: pointer;" data-href='ads/{{$ad->id}}/{{$ad->slug}}'>
                     <td class="d-none d-sm-table-cell">
                         @if($ad->pictures()->exists())
                             <img src="{{$ad->pictures()->first()->url}}" class="img-preview"/>
                         @else
-                            <div class="img-placeholder"></div>
+                            <div class="img-placeholder"><i class=" fa fa-user fa-4x"></i></div>
                         @endif
                     </td>
                     <td>
-                        <a class="title-link" href="ads/{{$ad->id}}/{{$ad->getSlug()}}">{{$ad->title}}</a>
+                        <a class="title-link" href="ads/{{$ad->id}}/{{$ad->slug}}">{{$ad->title}}</a>
                         <span class="author">{{$ad->author_name}} @if($ad->author_age)({{$ad->author_age}})@endif</span>
                         <div class="ad-text">{{$ad->getShortenedText()}}</div>
                         <div class="tags">
@@ -73,7 +81,7 @@
                                 <span class="d-none d-sm-inline">{{($ad->author_zip ?? '') . " "}}</span>
                                 {{$ad->author_town.","}}
                             @endif
-                            {{$ad->author_country}}
+                            {{ucwords(strtolower(config('countries.all')[$ad->author_country]['name'] ?? ''))}}
                         </span>
                     </td>
                 </tr>

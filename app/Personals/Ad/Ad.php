@@ -4,6 +4,8 @@ namespace Personals\Ad;
 
 use Cocur\Slugify\Slugify;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * Personals\User\User
@@ -29,6 +31,9 @@ use Illuminate\Database\Eloquent\Model;
 class Ad extends Model
 {
     protected $guarded = ['id'];
+
+    const STATUS_PENDING   = 'pending';
+    const STATUS_CONFIRMED = 'confirmed';
 
 
     public function pictures()
@@ -64,11 +69,35 @@ class Ad extends Model
     }
 
 
+    public function getActivationToken()
+    {
+        return bcrypt(config('app.key') . $this->id);
+    }
+
+
+    public function activateAd(string $activationToken)
+    {
+        if ($activationToken !== $this->getActivationToken()) {
+            throw new AccessDeniedHttpException("The activation token is invalid!");
+        }
+
+        $this->status = static::STATUS_CONFIRMED;
+    }
+
+
     public static function boot()
     {
         parent::boot();
         static::creating(function (Ad $ad) {
             $ad->setSlug();
         });
+    }
+
+
+    public function addPicture(UploadedFile $file)
+    {
+        $fileName = str_random() . "." . $file->getClientOriginalExtension();
+        \Storage::putFileAs($this->id, $file, $fileName);
+        $this->pictures()->create(['url' => \Storage::url($this->id . "/" . $fileName)]);
     }
 }

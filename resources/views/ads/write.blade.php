@@ -5,7 +5,7 @@
 @section('content')
     <div class="container mt-4 p-4" style="border: 1px solid #ddd; border-radius: 10px;">
         <h1>{{__('Place an Ad')}}</h1>
-        <form class="form" method="post">
+        <form class="form" method="post" enctype="multipart/form-data">
             {{csrf_field()}}
             <div class="row">
                 <div class="col-md-6">
@@ -21,7 +21,8 @@
                                    name="author_name"
                                    placeholder="{{__('Your Name')}}"
                                    required
-                                   maxlength="16"/>
+                                   value="{{old('author_name')}}"
+                                   maxlength="32"/>
                         </div>
                         <div class="col-sm-4">
                             <input class="form-control"
@@ -30,6 +31,7 @@
                                    placeholder="{{__('Age')}}"
                                    min="0"
                                    max="99"
+                                   value="{{old('author_age')}}"
                                    oninput="if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                                    maxlength="2"/>
                         </div>
@@ -44,6 +46,7 @@
                             <input class="form-control form-required"
                                    type="email"
                                    name="author_email"
+                                   value="{{old('author_email')}}"
                                    placeholder="{{__('Your Email')}}"
                                    required
                                    maxlength="64"/>
@@ -54,15 +57,18 @@
                             <input class="form-control"
                                    type="text"
                                    name="author_phone"
+                                   value="{{old('author_phone')}}"
                                    placeholder="{{__('Your Phone Number')}}"
                                    maxlength="32"/>
-                            <input type="hidden" name="author_phone" id="author_phone">
                         </div>
                         <div class="col-sm-5" style="margin-left: 0; padding-left: 0;">
                             <div class="form-control" style="border: 0;">
                                 <div class=" checkbox checbox-switch switch-warning">
                                     <label style="cursor:pointer; white-space: nowrap;">
-                                        <input type="checkbox" name="author_phone_whatsapp">
+                                        <input type="checkbox"
+                                               name="author_phone_whatsapp"
+                                                {{old('author_phone_whatsapp') ? 'checked' : ''}}
+                                        />
                                         <span></span>
                                         <i class="fab fa-whatsapp fa-1x"></i> Whatsapp
                                     </label>
@@ -77,20 +83,30 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <input type="text" name="author_zip" placeholder="{{__('Your Zip Code')}}"
-                                   class="form-control">
+                            <input type="text" name="author_zip"
+                                   value="{{old('author_zip')}}" placeholder="{{__('Your Zip Code')}}"
+                                   class="form-control"
+                                   maxlength="11"
+                            >
                         </div>
                         <div class="col-sm-6">
-                            <input type="text" name="author_town" placeholder="{{__('Your Town')}}"
-                                   class="form-control">
+                            <input type="text" name="author_town"
+                                   value="{{old('author_town')}}" placeholder="{{__('Your Town')}}"
+                                   class="form-control"
+                                   maxlength="32
+                            ">
                         </div>
                     </div>
-                    <div class="row mt-2 mb-4">
+                    <div class="row mt-2">
                         <div class="col-sm-12">
-                            <select name="country" class="form-control">
+                            <select name="author_country" class="form-control">
                                 <option selected value="">Anywhere</option>
                                 @foreach(config('countries.all') as $code => $set)
-                                    <option value="{{$code}}" {{config('countries.default') === $code ? 'selected' : ''}}>{{ucwords(strtolower($set['name']))}}</option>
+                                    <option value="{{$code}}"
+                                            @if(old('author_country') === $code or (!old('author_country') and config('countries.default') === $code))
+                                            selected
+                                            @endif
+                                    >{{ucwords(strtolower($set['name']))}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -103,15 +119,40 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm 12">
-                            <input required type="text" class="form-control" name="title"
-                                   placeholder="{{__('Title of Your Ad')}}">
+                        <div class="col-sm-12">
+                            <div class="form-control" style="border: 0;">
+                                <div class=" checkbox checbox-switch switch-warning">
+                                    <label style="cursor:pointer; white-space: nowrap;">
+                                        <input type="checkbox" name="commercial"
+                                                {{old('commercial') ? 'checked' : ''}}>
+                                        <span></span>
+                                        <i style="border: 1px solid black; border-radius: 20px; padding: 3px;">&nbsp;<b>&dollar;&nbsp;</b></i>
+                                        Commercial Ad
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input required
+                                   type="text"
+                                   class="form-control"
+                                   name="title"
+                                   value="{{old('title')}}"
+                                   placeholder="{{__('Title of Your Ad')}}"
+                                   maxlength="64">
                         </div>
                     </div>
                     <div class="row mt-2">
-                        <div class="col-sm 12">
-                            <textarea required name="text" id="text" rows="11" class="form-control"
-                                      placeholder="Text of Your Ad"></textarea>
+                        <div class="col-sm-12">
+                            <textarea required
+                                      name="text"
+                                      id="text"
+                                      rows="10"
+                                      class="form-control"
+                                      placeholder="Text of Your Ad"
+                            >{{old('text')}}</textarea>
                         </div>
                     </div>
                 </div>
@@ -128,25 +169,26 @@
                 </div>
             </div>
             <div class="row mb-4" id="picture2" style="display:none;">
-                <div class="col-sm-3"><img src="" style="width:100%" id="preview2"/></div>
+                <div class="col-sm-3 d-none d-sm-inline"><img src="" style="width:100%" id="preview2"/></div>
                 <div class="col-sm-9">
+
                     <input type="file" name="image[]" onchange="preview(this, 'preview2'); unhide('picture3');"/>
                 </div>
             </div>
             <div class="row mb-4" id="picture3" style="display:none;">
-                <div class="col-sm-3"><img src="" style="width:100%" id="preview3"/></div>
+                <div class="col-sm-3 d-none d-sm-inline"><img src="" style="width:100%" id="preview3"/></div>
                 <div class="col-sm-9">
                     <input type="file" name="image[]" onchange="preview(this, 'preview3'); unhide('picture4');"/>
                 </div>
             </div>
             <div class="row mb-4" id="picture4" style="display:none;">
-                <div class="col-sm-3"><img src="" style="width:100%" id="preview4"/></div>
+                <div class="col-sm-3 d-none d-sm-inline"><img src="" style="width:100%" id="preview4"/></div>
                 <div class="col-sm-9">
                     <input type="file" name="image[]" onchange="preview(this, 'preview4'); unhide('picture5');"/>
                 </div>
             </div>
             <div class="row mb-4" id="picture5" style="display:none;">
-                <div class="col-sm-3"><img src="" style="width:100%" id="preview5"/></div>
+                <div class="col-sm-3 d-none d-sm-inline"><img src="" style="width:100%" id="preview5"/></div>
                 <div class="col-sm-9">
                     <input type="file" name="image[]" onchange="preview(this, 'preview5');"/>
                 </div>
