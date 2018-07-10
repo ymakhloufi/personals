@@ -19,6 +19,12 @@ class AdController extends Controller
     }
 
 
+    public function show(Ad $ad)
+    {
+        return view('ads.show', ['ad' => $ad,]);
+    }
+
+
     public function write()
     {
         return view('ads.write', ['countries' => config('countries')]);
@@ -42,7 +48,7 @@ class AdController extends Controller
 
         $ad->status                = Ad::STATUS_CONFIRMED;    // ToDo: change to "STATUS_PENDING"
         $ad->expires_at            = Carbon::now()->addWeeks(4)->toDateTimeString();
-        $ad->author_phone_whatsapp = $request->has('author_phone_whatsapp');
+        $ad->author_phone_whatsapp = $request->get('author_phone') and $request->has('author_phone_whatsapp');
         $ad->commercial            = $request->has('commercial');
 
         $ad->save();

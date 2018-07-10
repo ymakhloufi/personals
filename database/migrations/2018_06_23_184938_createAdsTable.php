@@ -15,7 +15,6 @@ class CreateAdsTable extends Migration
         Schema::create('ads', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title', 64)->index();
-            $table->string('slug', 96)->unique()->index();
             $table->text('text');
             $table->string('author_name', 32);
             $table->integer('author_age')->nullable()->index();

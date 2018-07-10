@@ -5,4 +5,5 @@ Route::group(['namespace' => '\Personals'], function () {
     Route::get('/', 'Ad\AdController@index');
     Route::get('/ads/write', 'Ad\AdController@write');
     Route::post('/ads/write', 'Ad\AdController@store');
+    Route::get('/ads/{ad}/{slug?}', 'Ad\AdController@show');
 });

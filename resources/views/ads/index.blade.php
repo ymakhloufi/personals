@@ -59,7 +59,7 @@
         <table class="table table-hover">
             <tbody>
             @foreach($ads as $ad)
-                <tr class="clickable-row" style="cursor: pointer;" data-href='ads/{{$ad->id}}/{{$ad->slug}}'>
+                <tr class="clickable-row" style="cursor: pointer;" data-href='ads/{{$ad->id}}/{{$ad->getSlug()}}'>
                     <td class="d-none d-sm-table-cell">
                         @if($ad->pictures()->exists())
                             <img src="{{$ad->pictures()->first()->url}}" class="img-preview"/>
@@ -68,7 +68,7 @@
                         @endif
                     </td>
                     <td>
-                        <a class="title-link" href="ads/{{$ad->id}}/{{$ad->slug}}">{{$ad->title}}</a>
+                        <a class="title-link" href="ads/{{$ad->id}}/{{$ad->getSlug()}}">{{$ad->title}}</a>
                         <span class="author">{{$ad->author_name}} @if($ad->author_age)({{$ad->author_age}})@endif</span>
                         <div class="ad-text">{{$ad->getShortenedText()}}</div>
                         <div class="tags">

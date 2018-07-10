@@ -1,8 +1,11 @@
 // Fonts
 //@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
 // Variables
 @import "variables";
-
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+a:not(.btn), a:active:not(.btn), a:hover:not(.btn), a:visited:not(.btn) {
+  color: #eebb00;
+}
+

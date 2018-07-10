@@ -5,6 +5,7 @@ namespace Personals\Ad;
 use Cocur\Slugify\Slugify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Propaganistas\LaravelPhone\PhoneNumber;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
@@ -31,6 +32,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class Ad extends Model
 {
     protected $guarded = ['id'];
+    protected $with    = ['pictures'];
 
     const STATUS_PENDING   = 'pending';
     const STATUS_CONFIRMED = 'confirmed';
@@ -54,18 +56,24 @@ class Ad extends Model
     }
 
 
-    public function setSlug(bool $saving = false)
+    public function getWhatsAppUrl(): ?string
     {
-        $baseSlug = $slug = (new Slugify())->slugify($this->title);
-        for ($i = 1; static::where('slug', $slug)->where('id', '!=', $this->id)->exists(); $i++) {
-            $slug = $baseSlug . "-" . $i;
-        }
+        try {
+            $internationalNuber = ($countryCode = $this->author_country ?: [])
+                ? PhoneNumber::make($this->author_phone, $countryCode)->formatE164()
+                : $this->author_phone;
 
-        $this->slug = $slug;
 
-        if ($saving) {
-            $this->save();
+            return "https://wa.me/" . ltrim($internationalNuber, '+');
+        } catch (\Exception $e) {
+            return null;
         }
+    }
+
+
+    public function getSlug()
+    {
+        return ((new Slugify())->slugify($this->title));
     }
 
 
@@ -82,15 +90,6 @@ class Ad extends Model
         }
 
         $this->status = static::STATUS_CONFIRMED;
-    }
-
-
-    public static function boot()
-    {
-        parent::boot();
-        static::creating(function (Ad $ad) {
-            $ad->setSlug();
-        });
     }
 
 
