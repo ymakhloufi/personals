@@ -152,6 +152,7 @@ return [
          * Package Service Providers...
          */
         Propaganistas\LaravelPhone\PhoneServiceProvider::class,
+        //LithiumDev\TagCloud\ServiceProvider::class,
 
         /*
          * Application Service Providers...

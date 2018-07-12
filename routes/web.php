@@ -1,9 +1,18 @@
 <?php
 
 Route::group(['namespace' => '\Personals'], function () {
-    Route::redirect("/ads", "/", 301);
     Route::get('/', 'Ad\AdController@index');
-    Route::get('/ads/write', 'Ad\AdController@write');
-    Route::post('/ads/write', 'Ad\AdController@store');
-    Route::get('/ads/{ad}/{slug?}', 'Ad\AdController@show');
+
+    Route::group(["prefix" => "/ads"], function () {
+        Route::redirect("/", "/", 301);
+        Route::get('/write', 'Ad\AdController@write');
+        Route::post('/write', 'Ad\AdController@store');
+        Route::get('/{ad}/{slug?}', 'Ad\AdController@show');
+    });
+
+    Route::get('/tag/{tag}', 'Ad\AdController@showByTag');
+
+    Route::group(["prefix" => "tags"], function () {
+        Route::get('/', 'Tag\TagController@index');
+    });
 });

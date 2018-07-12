@@ -42,6 +42,52 @@
         .tags > a {
             margin-right: 5px;
         }
+
+        .tag {
+            display: inline-block;
+            margin: 0 10px;
+            line-height: 90%;
+        }
+
+        .size1 {
+            font-size: 9pt;
+        }
+
+        .size2 {
+            font-size: 11pt;
+        }
+
+        .size3 {
+            font-size: 13pt;
+        }
+
+        .size4 {
+            font-size: 15pt;
+        }
+
+        .size5 {
+            font-size: 17pt;
+        }
+
+        .size6 {
+            font-size: 19pt;
+        }
+
+        .size7 {
+            font-size: 21pt;
+        }
+
+        .size8 {
+            font-size: 23pt;
+        }
+
+        .size9 {
+            font-size: 25pt;
+        }
+
+        .size10 {
+            font-size: 27pt;
+        }
     </style>
 
     <div class="jumbotron jumbotron-fluid p-4"
@@ -53,6 +99,17 @@
 
     @if(session()->has('success'))
         <div class="alert alert-success m-5 text-center">{{session()->get('success')}}</div>
+    @endif
+
+
+    <div class="offset-sm-2 col-sm-8 mb-4" style="text-align: center;">{!! $tagCloud !!}</div>
+
+
+    @if(isset($tag))
+        <h3 style="text-align: center">
+            {{__('Showing Ads for Tag')}} <b>{{$tag->tag}}</b>
+            <span style="font-size:10pt;">(<a href="/">show all</a>)</span>
+        </h3>
     @endif
 
     <div class="container">

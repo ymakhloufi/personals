@@ -15,13 +15,28 @@ class AdController extends Controller
             ->take(30)
             ->get();
 
-        return view('ads.index', ['ads' => $viewableAds]);
+        return view('ads.index', [
+            'ads'      => $viewableAds,
+            'tagCloud' => Tag::getTagCloud(),
+        ]);
     }
 
 
     public function show(Ad $ad)
     {
         return view('ads.show', ['ad' => $ad,]);
+    }
+
+
+    public function showByTag(string $tag)
+    {
+        $tag = Tag::where('tag', '=', $tag)->first();
+
+        return view('ads.index', [
+            'tag'      => $tag,
+            'ads'      => $tag->ads,
+            'tagCloud' => Tag::getTagCloud(),
+        ]);
     }
 
 
@@ -48,7 +63,7 @@ class AdController extends Controller
 
         $ad->status                = Ad::STATUS_CONFIRMED;    // ToDo: change to "STATUS_PENDING"
         $ad->expires_at            = Carbon::now()->addWeeks(4)->toDateTimeString();
-        $ad->author_phone_whatsapp = $request->get('author_phone') and $request->has('author_phone_whatsapp');
+        $ad->author_phone_whatsapp = (int) ($request->get('author_phone') and $request->has('author_phone_whatsapp'));
         $ad->commercial            = $request->has('commercial');
 
         $ad->save();

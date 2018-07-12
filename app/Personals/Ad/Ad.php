@@ -5,6 +5,7 @@ namespace Personals\Ad;
 use Cocur\Slugify\Slugify;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
+use Personals\Ad\Tag;
 use Propaganistas\LaravelPhone\PhoneNumber;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
