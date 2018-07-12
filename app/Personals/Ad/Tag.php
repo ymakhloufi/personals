@@ -29,6 +29,8 @@ class Tag extends Model
     {
         return static::join('ad_tag', 'tag_id', '=', 'tags.id')
             ->groupBy('tag_id')
+            ->orderByRaw('count(*) DESC')
+            ->limit(30)
             ->select([\DB::raw('count(*) as count'), 'tag'])
             ->pluck('count', 'tag');
     }

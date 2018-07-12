@@ -68,6 +68,14 @@ class AdController extends Controller
 
         $ad->save();
 
+        // tags are POSTed as a comma-separated list
+        $tags = array_filter(array_map('trim', explode(',', $request->get('tags'))));
+        foreach ($tags as $tagString) {
+            $tag = Tag::firstOrCreate(['tag' => $tagString]);
+            $ad->tags()->sync([$tag->id], false);
+        }
+
+
         foreach ($request->file('image') ?? [] as $file) {
             $ad->addPicture($file);
         }

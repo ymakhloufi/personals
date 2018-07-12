@@ -3,6 +3,19 @@
 @section('title', "Place an Ad - ".config('app.name'))
 
 @section('content')
+
+    @if(count($errors->getMessages()))
+        <div class="alert alert-danger m-5 text-center">
+            <ul>
+                @foreach($errors->getMessages() as $messages)
+                    @foreach($messages as $message)
+                        <li style="list-style: none;">{{$message}}</li>
+                    @endforeach
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <div class="container mt-4 p-4" style="border: 1px solid #ddd; border-radius: 10px;">
         <h1>{{__('Place an Ad')}}</h1>
         <form class="form" method="post" enctype="multipart/form-data">
@@ -126,7 +139,6 @@
                                         <input type="checkbox" name="commercial"
                                                 {{old('commercial') ? 'checked' : ''}}>
                                         <span></span>
-                                        <i style="border: 1px solid black; border-radius: 20px; padding: 3px;">&nbsp;<b>&dollar;&nbsp;</b></i>
                                         Commercial Ad
                                     </label>
                                 </div>
@@ -153,6 +165,22 @@
                                       class="form-control"
                                       placeholder="Text of Your Ad"
                             >{{old('text')}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-sm-2">
+                            <span style="position:relative; top:5px;">
+                                <label for="tags">Tags</label>
+                            </span>
+                        </div>
+                        <div class="col-sm-10">
+                            <input type="text"
+                                   class="form-control"
+                                   id="tags"
+                                   name="tags"
+                                   placeholder="{{\Personals\Ad\Tag::inRandomOrder()->first()->tag}}, {{\Personals\Ad\Tag::inRandomOrder()->first()->tag}}, ..."
+                                   value="{{old('tags')}}"
+                            />
                         </div>
                     </div>
                 </div>
@@ -201,11 +229,11 @@
         </form>
     </div>
     <script language="JavaScript">
-        function unhide (id) {
+        function unhide(id) {
             _(id).style.display = '';
         }
 
-        function preview (input, previewId) {
+        function preview(input, previewId) {
             if (input.files && input.files[0]) {
                 let reader = new FileReader();
 
