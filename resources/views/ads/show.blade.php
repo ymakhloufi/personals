@@ -70,27 +70,28 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-12">
                         <span style="display: inline-block; font-size: 9pt;">
                             {{__('Posted:')}} {{$ad->created_at->diffForHumans()}}
-                        </span>
-                    </div>
-                    <div class="col-sm-8">
-                        <span style="display: inline-block; float:right;">
-                            @if($ad->tags()->exists())
-                                Tags:
-                                @foreach($ad->tags as $tag)
-                                    <a style="white-space: nowrap" class="ml-3" href="/tags/{{$tag->tag}}">
-                                        #{{$tag->tag}}
-                                    </a>
-                                @endforeach
-                            @endif
                         </span>
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-sm-12">
                         {!! nl2br(e($ad->text))!!}
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-sm-12">
+                        @if($ad->tags()->exists())
+                            <b>Tags:</b>
+                            @foreach($ad->tags as $tag)
+                                <a style="white-space: nowrap" class="ml-3"
+                                   href="{{route('tag.show', ['tag' => $tag->tag])}}">
+                                    #{{$tag->tag}}
+                                </a>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -109,12 +110,12 @@
     </style>
 
     <script language="JavaScript">
-        function mailTo (encodedEmail) {
+        function mailTo(encodedEmail) {
             window.location.href = 'mailto:' +
                 encodedEmail.replace(/.{1,2}/g, (temp) => String.fromCharCode(parseInt(temp, 16)));
         }
 
-        function swapImg (url) {
+        function swapImg(url) {
             _('preview_img').src = url;
             _('preview_link').href = url;
         }

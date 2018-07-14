@@ -90,17 +90,6 @@
         }
     </style>
 
-    <div class="jumbotron jumbotron-fluid p-4"
-         style="text-align: center; color: #444; background: #fceabb; background: linear-gradient(10deg, #f7d785 0%,#fccd4d 100%);">
-        <h1 class="text-lg-center">{{config('app.name')}}</h1>
-        <h2 class="lead">{{config('app.description')}}</h2>
-    </div>
-
-
-    @if(session()->has('success'))
-        <div class="alert alert-success m-5 text-center">{{session()->get('success')}}</div>
-    @endif
-
 
     <div class="offset-sm-2 col-sm-8 mb-4" style="text-align: center;">{!! $tagCloud !!}</div>
 
@@ -116,7 +105,7 @@
         <table class="table table-hover">
             <tbody>
             @foreach($ads as $ad)
-                <tr class="clickable-row" style="cursor: pointer;" data-href='ads/{{$ad->id}}/{{$ad->getSlug()}}'>
+                <tr class="clickable-row" style="cursor: pointer;" data-href='/ads/{{$ad->id}}/{{$ad->getSlug()}}'>
                     <td class="d-none d-sm-table-cell">
                         @if($ad->pictures()->exists())
                             <img src="{{$ad->pictures()->first()->url}}" class="img-preview"/>
@@ -125,12 +114,12 @@
                         @endif
                     </td>
                     <td>
-                        <a class="title-link" href="ads/{{$ad->id}}/{{$ad->getSlug()}}">{{$ad->title}}</a>
+                        <a class="title-link" href="/ads/{{$ad->id}}/{{$ad->getSlug()}}">{{$ad->title}}</a>
                         <span class="author">{{$ad->author_name}} @if($ad->author_age)({{$ad->author_age}})@endif</span>
                         <div class="ad-text">{{$ad->getShortenedText()}}</div>
                         <div class="tags">
                             @foreach($ad->tags as $tag)
-                                <a href="/tags/{{$tag->tag}}">#{{$tag->tag}}</a>
+                                <a href="{{route('tag.show', ['tag' => $tag->tag])}}">#{{$tag->tag}}</a>
                             @endforeach
                         </div>
                         <span class="location">

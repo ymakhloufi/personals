@@ -4,6 +4,7 @@ namespace Personals\Ad;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAdRequest;
+use App\Mail\PublishAd;
 use Carbon\Carbon;
 
 class AdController extends Controller
@@ -24,6 +25,10 @@ class AdController extends Controller
 
     public function show(Ad $ad)
     {
+        if ($ad->status !== Ad::STATUS_CONFIRMED) {
+            return response(__("This ad has not been confirmed yet - please check your email inbox"), 403);
+        }
+
         return view('ads.show', ['ad' => $ad,]);
     }
 
@@ -37,6 +42,18 @@ class AdController extends Controller
             'ads'      => $tag->ads,
             'tagCloud' => Tag::getTagCloud(),
         ]);
+    }
+
+
+    public function publish(Ad $ad, string $token)
+    {
+        if (!$ad->publishAd($token)) {
+            return response(__("The confirmation token is invalid."));
+        }
+
+        session()->flash('success', __('Your Ad has been published successfully!'));
+
+        return redirect()->route('ad.show', ['ad' => $ad, 'slug' => $ad->getSlug()]);
     }
 
 
@@ -61,11 +78,10 @@ class AdController extends Controller
             'author_country',
         ]));
 
-        $ad->status                = Ad::STATUS_CONFIRMED;    // ToDo: change to "STATUS_PENDING"
+        $ad->status                = Ad::STATUS_PENDING;
         $ad->expires_at            = Carbon::now()->addWeeks(4)->toDateTimeString();
         $ad->author_phone_whatsapp = (int) ($request->get('author_phone') and $request->has('author_phone_whatsapp'));
         $ad->commercial            = $request->has('commercial');
-
         $ad->save();
 
         // tags are POSTed as a comma-separated list
@@ -75,17 +91,18 @@ class AdController extends Controller
             $ad->tags()->sync([$tag->id], false);
         }
 
-
+        // attach pictures to Ad
         foreach ($request->file('image') ?? [] as $file) {
             $ad->addPicture($file);
         }
 
-        // ToDo: Send Activation email
+        // send confirmation email
+        \Mail::to($request->get('author_email'))->send(new PublishAd($ad));
 
         session()->flash(
             'success',
             __('We have sent you a confirmation email. Please check your email inbox and ' .
-               'click on the confirmation link in order to make the ad visible on our page.')
+               'click on the confirmation link in order to make the publish the ad on our page.')
         );
 
         return redirect('/');

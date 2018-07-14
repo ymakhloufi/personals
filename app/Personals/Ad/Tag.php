@@ -45,7 +45,7 @@ class Tag extends Model
         });
 
         foreach (static::getTagsByCount() as $tag => $count) {
-            $cloud->addTag(['tag' => $tag, 'url' => '/tag/' . $tag, 'size' => $count]);
+            $cloud->addTag(['tag' => $tag, 'url' => route('tag.show', ['tag' => $tag]), 'size' => $count]);
         }
 
         return $cloud->render();

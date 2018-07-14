@@ -45,7 +45,7 @@
 <nav class="navbar navbar-dark bg-dark justify-content-between">
     <a class="navbar-brand" href="/">
         <img src="{{asset('/img/logo_white.png')}}" height="28">
-        <span class="d-none d-sm-inline"> Personals</span>
+        <span class="d-none d-sm-inline"> {{config('app.name')}}</span>
     </a>
     <form action="/ads/search" method="get" id="search-form" class="search form-inline">
         <i class="fa fa-search" onclick="
@@ -69,3 +69,15 @@
         <span class="d-none d-sm-inline"> {{_('Write Ad')}}</span>
     </a>
 </nav>
+
+
+<div class="jumbotron jumbotron-fluid p-4"
+     style="text-align: center; color: #444; background: #fceabb; background: linear-gradient(10deg, #f7d785 0%,#fccd4d 100%);">
+    <h1 class="text-lg-center">{{config('app.name')}}</h1>
+    <h2 class="lead">{{config('app.description')}}</h2>
+</div>
+
+
+@if(session()->has('success'))
+    <div class="alert alert-success m-5 text-center">{{session()->get('success')}}</div>
+@endif

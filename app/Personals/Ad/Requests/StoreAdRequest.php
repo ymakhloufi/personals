@@ -30,7 +30,7 @@ class StoreAdRequest extends FormRequest
             'author_name'    => 'required|string',
             'author_email'   => 'required|email',
             'author_country' => 'required|string',
-            'image.*'        => 'mimes:jpg,png|max:4',
+            'image.*'        => 'mimes:jpg,jpeg,png|max:4096',
         ];
     }
 }

@@ -4,10 +4,10 @@ namespace Personals\Ad;
 
 use Cocur\Slugify\Slugify;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\UploadedFile;
-use Personals\Ad\Tag;
 use Propaganistas\LaravelPhone\PhoneNumber;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * Personals\User\User
@@ -39,19 +39,19 @@ class Ad extends Model
     const STATUS_CONFIRMED = 'confirmed';
 
 
-    public function pictures()
+    public function pictures(): HasMany
     {
         return $this->hasMany(Picture::class);
     }
 
 
-    public function tags()
+    public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
     }
 
 
-    public function getShortenedText()
+    public function getShortenedText(): string
     {
         return strlen($this->text) > 256 ? substr($this->text, 0, 230) . "..." : $this->text;
     }
@@ -72,29 +72,34 @@ class Ad extends Model
     }
 
 
-    public function getSlug()
+    public function getSlug(): string
     {
         return ((new Slugify())->slugify($this->title));
     }
 
 
-    public function getActivationToken()
+    public function getActivationToken(): string
     {
-        return bcrypt(config('app.key') . $this->id);
+        return hash('sha256', config('app.key') . $this->id);
     }
 
 
-    public function activateAd(string $activationToken)
+    public function publishAd(string $activationToken): bool
     {
         if ($activationToken !== $this->getActivationToken()) {
-            throw new AccessDeniedHttpException("The activation token is invalid!");
+            return false;
         }
 
-        $this->status = static::STATUS_CONFIRMED;
+        if ($this->status !== static::STATUS_CONFIRMED) {
+            $this->status = static::STATUS_CONFIRMED;
+            $this->save();
+        }
+
+        return true;
     }
 
 
-    public function addPicture(UploadedFile $file)
+    public function addPicture(UploadedFile $file): void
     {
         $fileName = str_random() . "." . $file->getClientOriginalExtension();
         \Storage::putFileAs($this->id, $file, $fileName);
