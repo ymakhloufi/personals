@@ -23,6 +23,21 @@ class AdController extends Controller
     }
 
 
+    public function search()
+    {
+        if (!$query = trim(request('q', ''))) {
+            session()->flash('error', __('The requested search term was invalid.'));
+
+            return redirect('/');
+        }
+
+        return view('ads.index', [
+            'ads'      => Ad::search($query),
+            'tagCloud' => Tag::getTagCloud(),
+        ]);
+    }
+
+
     public function show(Ad $ad)
     {
         if ($ad->status !== Ad::STATUS_CONFIRMED) {

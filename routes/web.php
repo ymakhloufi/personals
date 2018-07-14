@@ -5,6 +5,7 @@ Route::group(['namespace' => '\Personals'], function () {
 
     Route::group(["prefix" => "/ads"], function () {
         Route::redirect("/", "/", 301);
+        Route::get("search", 'Ad\AdController@search')->name('ad.search');
         Route::get('/write', 'Ad\AdController@write');
         Route::post('/write', 'Ad\AdController@store');
         Route::get('/{ad}/publish/{token}', 'Ad\AdController@publish')->name('ad.publish');

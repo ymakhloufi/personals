@@ -3,6 +3,7 @@
 namespace Personals\Ad;
 
 use Cocur\Slugify\Slugify;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -37,6 +38,30 @@ class Ad extends Model
 
     const STATUS_PENDING   = 'pending';
     const STATUS_CONFIRMED = 'confirmed';
+
+
+    public static function search($query)
+    {
+        $firstPrioAds = Ad
+            ::where('status', static::STATUS_CONFIRMED)
+            ->where(function (Builder $builder) use ($query) {
+                $builder->where('title', 'like', '%' . $query . '%')
+                    ->orWhere('author_name', 'like', '%' . $query . '%')
+                    ->orWhere('author_email', 'like', '%' . $query . '%')
+                    ->orWhere('author_phone', 'like', '%' . $query . '%')
+                    ->orWhere('author_town', 'like', '%' . $query . '%');
+            })
+            ->get();
+
+        $secondPrioAds = collect();
+        foreach (Tag::where('tag', 'like', '%' . $query . '%')->with('ads')->get() as $tag) {
+            $secondPrioAds = $secondPrioAds->merge($tag->ads);
+        }
+
+        $thirdPrioAds = Ad::where('text', 'like', '%' . $query . '%')->get();
+
+        return $firstPrioAds->merge($secondPrioAds)->merge($thirdPrioAds);
+    }
 
 
     public function pictures(): HasMany

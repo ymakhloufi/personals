@@ -47,7 +47,7 @@
         <img src="{{asset('/img/logo_white.png')}}" height="28">
         <span class="d-none d-sm-inline"> {{config('app.name')}}</span>
     </a>
-    <form action="/ads/search" method="get" id="search-form" class="search form-inline">
+    <form action="{{route('ad.search')}}" method="get" id="search-form" class="search form-inline">
         <i class="fa fa-search" onclick="
                             if(_('search-input').value !== ''){
                               _('search-form').submit();
@@ -80,4 +80,8 @@
 
 @if(session()->has('success'))
     <div class="alert alert-success m-5 text-center">{{session()->get('success')}}</div>
+@endif
+
+@if(session()->has('error'))
+    <div class="alert alert-danger m-5 text-center">{{session()->get('error')}}</div>
 @endif

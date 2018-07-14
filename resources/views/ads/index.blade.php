@@ -101,6 +101,14 @@
         </h3>
     @endif
 
+
+    @if(request('q'))
+        <h3 style="text-align: center">
+            {{__('Showing search results for')}} <b>{{request('q')}}</b>
+            <span style="font-size:10pt;">(<a href="/">show all</a>)</span>
+        </h3>
+    @endif
+
     <div class="container">
         <table class="table table-hover">
             <tbody>
