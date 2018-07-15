@@ -209,7 +209,8 @@
                 </div>
             </div>
             <div class="row">
-                <div align="center" class="mt-3 col-sm-12">
+                <div class="mt-3 col-sm-12 text-center">
+                    <div style="transform:scale(0.95);transform-origin:0 0;"> {!! NoCaptcha::display() !!}</div>
                     <button type="submit" class="btn btn-warning btn-lg">Submit</button>
                 </div>
             </div>

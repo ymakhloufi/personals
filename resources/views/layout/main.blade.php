@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="{{asset("js/app.js")}}"></script>
+    {!! \NoCaptcha::renderJs() !!}
     <link rel="stylesheet" href="{{asset("/css/app.css")}}"/>
     <link rel="stylesheet" href="/css/checbox.css">
     <title>@yield('title')</title>
@@ -35,7 +36,7 @@
 </div>
 
 <script language="JavaScript">
-    function _ (id) {
+    function _(id) {
         return document.getElementById(id);
     }
 

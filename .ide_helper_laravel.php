@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.6.26 on 2018-07-10 15:22:46.
+ * Generated for Laravel 5.6.26 on 2018-07-15 13:59:42.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -12182,6 +12182,79 @@ namespace Illuminate\Support\Facades {
  
 }
 
+namespace Anhskohbo\NoCaptcha\Facades { 
+
+    class NoCaptcha {
+        
+        /**
+         * Render HTML captcha.
+         *
+         * @param array $attributes
+         * @return string 
+         * @static 
+         */ 
+        public static function display($attributes = array())
+        {
+            return \Anhskohbo\NoCaptcha\NoCaptcha::display($attributes);
+        }
+        
+        /**
+         * Render js source
+         *
+         * @param null $lang
+         * @param bool $callback
+         * @param string $onLoadClass
+         * @return string 
+         * @static 
+         */ 
+        public static function renderJs($lang = null, $callback = false, $onLoadClass = 'onloadCallBack')
+        {
+            return \Anhskohbo\NoCaptcha\NoCaptcha::renderJs($lang, $callback, $onLoadClass);
+        }
+        
+        /**
+         * Verify no-captcha response.
+         *
+         * @param string $response
+         * @param string $clientIp
+         * @return bool 
+         * @static 
+         */ 
+        public static function verifyResponse($response, $clientIp = null)
+        {
+            return \Anhskohbo\NoCaptcha\NoCaptcha::verifyResponse($response, $clientIp);
+        }
+        
+        /**
+         * Verify no-captcha response by Symfony Request.
+         *
+         * @param \Request $request
+         * @return bool 
+         * @static 
+         */ 
+        public static function verifyRequest($request)
+        {
+            return \Anhskohbo\NoCaptcha\NoCaptcha::verifyRequest($request);
+        }
+        
+        /**
+         * Get recaptcha js link.
+         *
+         * @param string $lang
+         * @param boolean $callback
+         * @param string $onLoadClass
+         * @return string 
+         * @static 
+         */ 
+        public static function getJsLink($lang = null, $callback = false, $onLoadClass = 'onloadCallBack')
+        {
+            return \Anhskohbo\NoCaptcha\NoCaptcha::getJsLink($lang, $callback, $onLoadClass);
+        }
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -14519,6 +14592,8 @@ namespace  {
     class Validator extends \Illuminate\Support\Facades\Validator {}
 
     class View extends \Illuminate\Support\Facades\View {}
+
+    class NoCaptcha extends \Anhskohbo\NoCaptcha\Facades\NoCaptcha {}
  
 }
 
