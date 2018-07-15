@@ -9,6 +9,18 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+    # Redirect non-health-check and non-beanstalk requests to https if they are http
+    RewriteCond %{HTTP_HOST} !localhost
+    RewriteCond %{HTTP_USER_AGENT} !^ELB-HealthChecker.*
+    RewriteCond %{HTTP:X-Forwarded-Proto} =http
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+    # Redirect non-health-check and non-beanstalk requests to www if they are not www, qa, uat
+    RewriteCond %{HTTP_HOST} !localhost
+    RewriteCond %{HTTP_USER_AGENT} !^ELB-HealthChecker.*
+    RewriteCond %{HTTP_HOST} !^www\. [NC]
+    RewriteRule ^(.*)$ https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
