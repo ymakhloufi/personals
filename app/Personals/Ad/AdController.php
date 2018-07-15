@@ -84,7 +84,11 @@ class AdController extends Controller
 
     public function write()
     {
-        return view('ads.write', ['countries' => config('countries')]);
+        return view('ads.write', [
+            'countries'       => config('countries'),
+            'tagsPlaceholder' => (Tag::inRandomOrder()->first()->tag ?? 'tag1') . ', ' .
+                                 (Tag::inRandomOrder()->first()->tag ?? 'tag2, ') . ', ' . '...',
+        ]);
     }
 
 

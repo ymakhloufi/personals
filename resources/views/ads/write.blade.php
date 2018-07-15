@@ -165,7 +165,7 @@
                                    class="form-control"
                                    id="tags"
                                    name="tags"
-                                   placeholder="{{\Personals\Ad\Tag::inRandomOrder()->first()->tag}}, {{\Personals\Ad\Tag::inRandomOrder()->first()->tag}}, ..."
+                                   placeholder="{{$tagsPlaceholder}}"
                                    value="{{old('tags')}}"
                             />
                         </div>
