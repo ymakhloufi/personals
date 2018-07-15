@@ -26,7 +26,7 @@ class CreateAdsTable extends Migration
             $table->string('author_country', 2)->index();
             $table->boolean('commercial');
             $table->integer('status')->index();
-            $table->timestamp('expires_at')->index();
+            $table->timestamp('expires_at')->nullable()->index();
             $table->timestamps();
         });
     }
