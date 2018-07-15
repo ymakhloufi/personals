@@ -63,8 +63,7 @@
                             @endif
                             <span style="white-space: nowrap;">
                             &nbsp; | &nbsp; <i class="far fa-envelope"></i>
-                                    <a href="javascript:mailTo('{{bin2hex($ad->author_email)}}');"
-                                       target="_blank"> {{__("Email")}}</a>
+                                    <a href="#reply"> {{__("Reply")}}</a>
                                 </span>
                         </span>
                     </div>
@@ -94,6 +93,35 @@
                         @endif
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row mt-4 border-top" style="padding-top: 20px;" id="reply">
+            <div class="col-sm-12">
+                <form method="post" action="{{route('ad.reply', ['ad' => $ad])}}">
+                    {{csrf_field()  }}
+                    <h2 class="mb-3">Reply to ths Ad</h2>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input class="form-control mt-1" placeholder="Your Name" required name="name" type="text"
+                                   value="{{old('name')}}"/>
+                            <input class="form-control mt-1" placeholder="Your Email Address" required name="email"
+                                   value="{{old('email')}}"
+                                   type="email"/>
+                            <input class="form-control mt-1 mb-1" placeholder="Your Phone Number" name="phone"
+                                   value="{{old('phone')}}"/>
+                        </div>
+                        <div class="col-sm-6">
+                        <textarea class="form-control" placeholder="Your Message" required name="message"
+                                  style="height:100%; min-height: 100px;">{{old('message')}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-sm-12 text-center">
+                            <div style="transform:scale(0.95);transform-origin:0 0;"> {!! NoCaptcha::display() !!}</div>
+                            <button type="submit" class="btn btn-warning">Send Reply</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -20,11 +20,6 @@ class PublishAd extends Mailable
     }
 
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
         return $this->markdown('emails.publishAdMd')->text('emails.publishAdPlain');

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreAdRequest extends FormRequest
+class ReplyAdRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,10 @@ class StoreAdRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'                => 'required|string',
-            'text'                 => 'required|string',
-            'author_name'          => 'required|string',
-            'author_email'         => 'required|email',
-            'author_country'       => 'required|string',
-            'image.*'              => 'mimes:jpg,jpeg,png|max:4096',
+            'name'                 => 'required|string',
+            'email'                => 'required|email',
+            'phone'                => 'string',
+            'message'              => 'required',
             'g-recaptcha-response' => 'required|captcha',
         ];
     }

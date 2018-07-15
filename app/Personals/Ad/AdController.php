@@ -3,8 +3,8 @@
 namespace Personals\Ad;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ReplyAdRequest;
 use App\Http\Requests\StoreAdRequest;
-use App\Mail\PublishAd;
 use Carbon\Carbon;
 
 class AdController extends Controller
@@ -35,6 +35,16 @@ class AdController extends Controller
             'ads'      => Ad::search($query),
             'tagCloud' => Tag::getTagCloud(),
         ]);
+    }
+
+
+    public function reply(ReplyAdRequest $request, Ad $ad)
+    {
+        $ad->sendReply($request->get('name'), $request->get('email'), $request->get('phone'), $request->get('message'));
+
+        session()->flash('success', __('Your message has been sent. Good Luck!'));
+
+        return redirect('/');
     }
 
 
@@ -94,7 +104,7 @@ class AdController extends Controller
         ]));
 
         $ad->status                = Ad::STATUS_PENDING;
-        $ad->expires_at            = Carbon::now()->addWeeks(4)->toDateTimeString();
+        $ad->expires_at            = Carbon::now()->addWeeks(env('AD_DEFAULT_EXPIRY_IN_WEEKS', 4))->toDateTimeString();
         $ad->author_phone_whatsapp = (int) ($request->get('author_phone') and $request->has('author_phone_whatsapp'));
         $ad->commercial            = $request->has('commercial');
         $ad->save();
@@ -112,7 +122,7 @@ class AdController extends Controller
         }
 
         // send confirmation email
-        \Mail::to($request->get('author_email'))->send(new PublishAd($ad));
+        $ad->sendConformationEmail($request->get('author_email'));
 
         session()->flash(
             'success',

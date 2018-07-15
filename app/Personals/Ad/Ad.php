@@ -2,6 +2,8 @@
 
 namespace Personals\Ad;
 
+use App\Mail\PublishAd;
+use App\Mail\ReplyAd;
 use Cocur\Slugify\Slugify;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -129,5 +131,18 @@ class Ad extends Model
         $fileName = str_random() . "." . $file->getClientOriginalExtension();
         \Storage::putFileAs('images/' . $this->id, $file, $fileName);
         $this->pictures()->create(['url' => \Storage::url('images/' . $this->id . "/" . $fileName)]);
+    }
+
+
+    public function sendConformationEmail(string $email)
+    {
+        \Mail::to($email)->send(new PublishAd($this));
+    }
+
+
+    public function sendReply(string $name, string $email, string $phone, string $message)
+    {
+        \Mail::alwaysReplyTo($email);
+        \Mail::to($this->author_email)->send(new ReplyAd($this, $name, $phone, $email, $message));
     }
 }

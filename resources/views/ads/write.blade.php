@@ -3,19 +3,6 @@
 @section('title', "Place an Ad - ".config('app.name'))
 
 @section('content')
-
-    @if(count($errors->getMessages()))
-        <div class="alert alert-danger m-5 text-center">
-            <ul>
-                @foreach($errors->getMessages() as $messages)
-                    @foreach($messages as $message)
-                        <li style="list-style: none;">{{$message}}</li>
-                    @endforeach
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
     <div class="container mt-4 p-4" style="border: 1px solid #ddd; border-radius: 10px;">
         <h1>{{__('Place an Ad')}}</h1>
         <form class="form" method="post" enctype="multipart/form-data">

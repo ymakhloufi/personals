@@ -85,3 +85,15 @@
 @if(session()->has('error'))
     <div class="alert alert-danger m-5 text-center">{{session()->get('error')}}</div>
 @endif
+
+@if(count($errors->getMessages()))
+    <div class="alert alert-danger m-5 text-center">
+        <ul>
+            @foreach($errors->getMessages() as $messages)
+                @foreach($messages as $message)
+                    <li style="list-style: none;">{{$message}}</li>
+                @endforeach
+            @endforeach
+        </ul>
+    </div>
+@endif
