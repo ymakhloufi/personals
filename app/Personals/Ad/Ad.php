@@ -127,7 +127,7 @@ class Ad extends Model
     public function addPicture(UploadedFile $file): void
     {
         $fileName = str_random() . "." . $file->getClientOriginalExtension();
-        \Storage::putFileAs($this->id, $file, $fileName);
-        $this->pictures()->create(['url' => \Storage::url($this->id . "/" . $fileName)]);
+        \Storage::putFileAs('images/' . $this->id, $file, $fileName);
+        $this->pictures()->create(['url' => \Storage::url('images/' . $this->id . "/" . $fileName)]);
     }
 }
