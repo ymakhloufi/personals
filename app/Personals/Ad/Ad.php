@@ -37,6 +37,7 @@ class Ad extends Model
 {
     protected $guarded = ['id'];
     protected $with    = ['pictures'];
+    protected $dates   = ['expires_at'];
 
     const STATUS_PENDING   = 'pending';
     const STATUS_CONFIRMED = 'confirmed';
@@ -97,6 +98,12 @@ class Ad extends Model
         } catch (\Exception $e) {
             return null;
         }
+    }
+
+
+    public function isExpired()
+    {
+        return $this->expires_at->isPast();
     }
 
 

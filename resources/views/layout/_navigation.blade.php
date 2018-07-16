@@ -70,13 +70,13 @@
     </a>
 </nav>
 
-
-<div class="jumbotron jumbotron-fluid p-4"
-     style="text-align: center; color: #444; background: #fceabb; background: linear-gradient(10deg, #f7d785 0%,#fccd4d 100%);">
-    <h1 class="text-lg-center">{{config('app.name')}}</h1>
-    <h2 class="lead">{{config('app.description')}}</h2>
-</div>
-
+<nav>
+    <div class="jumbotron jumbotron-fluid p-4"
+         style="text-align: center; color: #444; background: #fceabb; background: linear-gradient(10deg, #f7d785 0%,#fccd4d 100%);">
+        <h1 class="text-lg-center">{{config('app.name')}}</h1>
+        <h2 class="lead">{{config('app.description')}}</h2>
+    </div>
+</nav>
 
 @if(session()->has('success'))
     <div class="alert alert-success m-5 text-center">{{session()->get('success')}}</div>

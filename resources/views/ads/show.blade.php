@@ -1,6 +1,10 @@
 @extends('layout.main')
 
-@section('title', config('app.name'))
+@section('canonicalUrl')
+    <link rel="canonical" href="{{route('ad.show', ['ad' => $ad, 'slug' => $ad->getSlug()])}}"/>
+@endsection
+
+@section('title', config('app.name') . " - " . $ad->title)
 
 @section('content')
     <div class="container mt-4 p-4" style="border: 1px solid #ddd; border-radius: 10px;">
@@ -47,24 +51,26 @@
                             {{ucwords(strtolower(config('countries.all')[$ad->author_country]['name'] ?? ''))}}
                         </span>
                         <span style=" text-align: right; display:inline-block; float:right;">
-                        @if($ad->author_phone)
+                            @if(!$ad->isExpired())
+                                @if($ad->author_phone)
+                                    <span style="white-space: nowrap;">
+                                        &nbsp; <i class="fa fa-phone"></i>
+                                        <a href="tel:{{$ad->author_phone}}" target="_blank">
+                                            {{$ad->author_phone}}
+                                        </a>
+                                    </span>
+                                @endif
+                                @if($ad->author_phone_whatsapp and $ad->getWhatsAppUrl())
+                                    <span style="white-space: nowrap;">
+                                        &nbsp; | &nbsp; <i class="fab fa-whatsapp fa-1x"></i>
+                                        <a href="{{$ad->getWhatsAppUrl()}}" target="_blank">Whatsapp</a>
+                                    </span>
+                                @endif
                                 <span style="white-space: nowrap;">
-                                    &nbsp; <i class="fa fa-phone"></i>
-                                    <a href="tel:{{$ad->author_phone}}" target="_blank">
-                                        {{$ad->author_phone}}
-                                    </a>
+                                &nbsp; | &nbsp; <i class="far fa-envelope"></i>
+                                        <a href="#reply"> {{__("Reply")}}</a>
                                 </span>
                             @endif
-                            @if($ad->author_phone_whatsapp and $ad->getWhatsAppUrl())
-                                <span style="white-space: nowrap;">
-                                    &nbsp; | &nbsp; <i class="fab fa-whatsapp fa-1x"></i>
-                                    <a href="{{$ad->getWhatsAppUrl()}}" target="_blank">Whatsapp</a>
-                                </span>
-                            @endif
-                            <span style="white-space: nowrap;">
-                            &nbsp; | &nbsp; <i class="far fa-envelope"></i>
-                                    <a href="#reply"> {{__("Reply")}}</a>
-                                </span>
                         </span>
                     </div>
                 </div>
@@ -77,7 +83,11 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-sm-12">
-                        {!! nl2br(e($ad->text))!!}
+                        <section>
+                            <article>
+                                {!! nl2br(e($ad->text))!!}
+                            </article>
+                        </section>
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -97,31 +107,40 @@
         </div>
         <div class="row mt-4 border-top" style="padding-top: 20px;" id="reply">
             <div class="col-sm-12">
-                <form method="post" action="{{route('ad.reply', ['ad' => $ad])}}">
-                    {{csrf_field()  }}
-                    <h2 class="mb-3">Reply to ths Ad</h2>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <input class="form-control mt-1" placeholder="Your Name" required name="name" type="text"
-                                   value="{{old('name')}}"/>
-                            <input class="form-control mt-1" placeholder="Your Email Address" required name="email"
-                                   value="{{old('email')}}"
-                                   type="email"/>
-                            <input class="form-control mt-1 mb-1" placeholder="Your Phone Number" name="phone"
-                                   value="{{old('phone')}}"/>
-                        </div>
-                        <div class="col-sm-6">
+                @if($ad->isExpired())
+                    <div align="center">
+                        <b>
+                            This Ad has expired. You can no longer reply to it!
+                        </b>
+                    </div>
+                @else
+                    <form method="post" action="{{route('ad.reply', ['ad' => $ad])}}">
+                        {{csrf_field()  }}
+                        <h2 class="mb-3">Reply to ths Ad</h2>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input class="form-control mt-1" placeholder="Your Name" required name="name"
+                                       type="text"
+                                       value="{{old('name')}}"/>
+                                <input class="form-control mt-1" placeholder="Your Email Address" required name="email"
+                                       value="{{old('email')}}"
+                                       type="email"/>
+                                <input class="form-control mt-1 mb-1" placeholder="Your Phone Number" name="phone"
+                                       value="{{old('phone')}}"/>
+                            </div>
+                            <div class="col-sm-6">
                         <textarea class="form-control" placeholder="Your Message" required name="message"
                                   style="height:100%; min-height: 100px;">{{old('message')}}</textarea>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-sm-12 text-center">
-                            <div style="transform:scale(0.95);transform-origin:0 0;"> {!! NoCaptcha::display() !!}</div>
-                            <button type="submit" class="btn btn-warning">Send Reply</button>
+                        <div class="row mt-4">
+                            <div class="col-sm-12 text-center">
+                                <div style="transform:scale(0.95);transform-origin:0 0;"> {!! NoCaptcha::display() !!}</div>
+                                <button type="submit" class="btn btn-warning">Send Reply</button>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                @endif
             </div>
         </div>
     </div>
