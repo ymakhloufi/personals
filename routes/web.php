@@ -1,6 +1,7 @@
 <?php
 
-Route::get('sitemap', 'App\Http\Controllers\SitemapController@sitemap');
+Route::get('sitemap', 'App\Http\Controllers\SitemapController@sitemap')->name('sitemap');
+Route::get('robots.txt', 'App\Http\Controllers\SitemapController@robots')->name('robots');
 
 Route::group(['namespace' => '\Personals'], function () {
     Route::get('/', 'Ad\AdController@index')->name('index');
