@@ -53,6 +53,7 @@ class Ad extends Model
                     ->orWhere('author_phone', 'like', '%' . $query . '%')
                     ->orWhere('author_town', 'like', '%' . $query . '%');
             })
+            ->orderByDesc('id')
             ->get();
 
         $secondPrioAds = collect();

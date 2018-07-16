@@ -7,7 +7,7 @@
 {{__('Publish Ad')}}
 @endcomponent
 
-{{ __('Your Ad will be online for:') . env('AD_DEFAULT_EXPIRY_IN_WEEKS') .__('weeks.')}}
+{{ __('Your Ad will be online for: ') . env('AD_DEFAULT_EXPIRY_IN_WEEKS') .__('weeks.')}}
 
 {{__('Thanks,')}}<br>
 {{ config('app.name') }}

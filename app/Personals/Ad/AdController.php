@@ -13,6 +13,7 @@ class AdController extends Controller
     {
         $viewableAds = Ad::where('status', Ad::STATUS_CONFIRMED)
             ->where('expires_at', '>', Carbon::now())
+            ->orderByDesc('id')
             ->take(30)
             ->get();
 
@@ -60,7 +61,7 @@ class AdController extends Controller
 
     public function showByTag(string $tag)
     {
-        $tag = Tag::where('tag', '=', $tag)->first();
+        $tag = Tag::where('tag', '=', $tag)->orderByDesc('id')->first();
 
         return view('ads.index', [
             'tag'      => $tag,
