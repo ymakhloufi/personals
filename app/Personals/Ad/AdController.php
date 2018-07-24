@@ -9,17 +9,19 @@ use Carbon\Carbon;
 
 class AdController extends Controller
 {
+    const RESULTS_PER_PAGE = 25;
+
+
     public function index()
     {
         $viewableAds = Ad::where('status', Ad::STATUS_CONFIRMED)
             ->where('expires_at', '>', Carbon::now())
-            ->orderByDesc('id')
-            ->take(30)
-            ->get();
+            ->orderByDesc('id');
 
         return view('ads.index', [
-            'ads'      => $viewableAds,
-            'tagCloud' => Tag::getTagCloud(),
+            'simplePaginator' => $viewableAds->simplePaginate(static::RESULTS_PER_PAGE),
+            'fullPaginator'   => $viewableAds->paginate(static::RESULTS_PER_PAGE),
+            'tagCloud'        => Tag::getTagCloud(),
         ]);
     }
 
@@ -32,9 +34,12 @@ class AdController extends Controller
             return redirect('/');
         }
 
+        $search = Ad::search($query);
+
         return view('ads.index', [
-            'ads'      => Ad::search($query),
-            'tagCloud' => Tag::getTagCloud(),
+            'simplePaginator' => $search->simplePaginate(static::RESULTS_PER_PAGE),
+            'fullPaginator'   => $search->paginate(static::RESULTS_PER_PAGE),
+            'tagCloud'        => Tag::getTagCloud(),
         ]);
     }
 
@@ -64,9 +69,10 @@ class AdController extends Controller
         $tag = Tag::where('tag', '=', $tag)->orderByDesc('id')->first();
 
         return view('ads.index', [
-            'tag'      => $tag,
-            'ads'      => $tag->ads,
-            'tagCloud' => Tag::getTagCloud(),
+            'tag'             => $tag,
+            'simplePaginator' => $tag->ads()->simplePaginate(static::RESULTS_PER_PAGE),
+            'fullPaginator'   => $tag->ads()->paginate(static::RESULTS_PER_PAGE),
+            'tagCloud'        => Tag::getTagCloud(),
         ]);
     }
 

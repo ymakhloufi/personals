@@ -110,9 +110,15 @@
     @endif
 
     <div class="container">
+        <div class="row float-sm-right d-block d-sm-none">
+            <div style="width:200px; float:right;">{!! $simplePaginator->render() !!}</div>
+        </div>
+        <div class="row float-sm-right d-none d-sm-block">{!! $fullPaginator->render() !!}</div>
+
+
         <table class="table table-hover">
             <tbody>
-            @foreach($ads as $ad)
+            @foreach($fullPaginator as $ad)
                 <tr class="clickable-row" style="cursor: pointer;" data-href='/ads/{{$ad->id}}/{{$ad->getSlug()}}'>
                     <td class="d-none d-sm-table-cell">
                         @if($ad->pictures()->exists())
@@ -142,5 +148,10 @@
             @endforeach
             </tbody>
         </table>
+
+        <div class="row float-sm-right d-block d-sm-none">
+            <div style="width:200px; float:right;">{!! $simplePaginator->render() !!}</div>
+        </div>
+        <div class="row float-sm-right d-none d-sm-block">{!! $fullPaginator->render() !!}</div>
     </div>
 @endsection

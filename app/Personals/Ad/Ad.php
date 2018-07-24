@@ -43,7 +43,7 @@ class Ad extends Model
     const STATUS_CONFIRMED = 'confirmed';
 
 
-    public static function search($query)
+    public static function search($query): Builder
     {
         $firstPrioAds = Ad
             ::where('status', static::STATUS_CONFIRMED)
@@ -54,8 +54,7 @@ class Ad extends Model
                     ->orWhere('author_phone', 'like', '%' . $query . '%')
                     ->orWhere('author_town', 'like', '%' . $query . '%');
             })
-            ->orderByDesc('id')
-            ->get();
+            ->orderByDesc('id');
 
         $secondPrioAds = collect();
         foreach (Tag::where('tag', 'like', '%' . $query . '%')->with('ads')->get() as $tag) {
@@ -101,7 +100,7 @@ class Ad extends Model
     }
 
 
-    public function isExpired()
+    public function isExpired(): bool
     {
         return $this->expires_at->isPast();
     }
@@ -142,13 +141,13 @@ class Ad extends Model
     }
 
 
-    public function sendConformationEmail(string $email)
+    public function sendConformationEmail(string $email): void
     {
         \Mail::to($email)->send(new PublishAd($this));
     }
 
 
-    public function sendReply(string $name, string $email, string $phone, string $message)
+    public function sendReply(string $name, string $email, string $phone, string $message): void
     {
         \Mail::alwaysReplyTo($email);
         \Mail::to($this->author_email)->send(new ReplyAd($this, $name, $phone, $email, $message));
