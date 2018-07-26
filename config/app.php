@@ -15,6 +15,7 @@ return [
 
     'name'        => env('APP_NAME', 'Laravel'),
     'description' => env('APP_DESCRIPTION', 'This is a 100% free platform to post, read and answer personal ads from people around you!'),
+    'keywords'    => env('APP_KEYWORDS', 'personals,ads,free,advertisement,small ads,classified ads'),
 
     /*
     |--------------------------------------------------------------------------

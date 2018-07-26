@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title', config('app.name'))
+@section('title', $title)
 
 @section('content')
 
@@ -130,7 +130,7 @@
                     <td>
                         <a class="title-link" href="/ads/{{$ad->id}}/{{$ad->getSlug()}}">{{$ad->title}}</a>
                         <span class="author">{{$ad->author_name}} @if($ad->author_age)({{$ad->author_age}})@endif</span>
-                        <div class="ad-text">{{$ad->getShortenedText()}}</div>
+                        <div class="summary">{{$ad->getShortenedText()}}</div>
                         <div class="tags">
                             @foreach($ad->tags as $tag)
                                 <a href="{{route('tag.show', ['tag' => $tag->tag])}}">#{{$tag->tag}}</a>

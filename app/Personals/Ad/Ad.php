@@ -79,6 +79,12 @@ class Ad extends Model
     }
 
 
+    public function getCanonicalUrl()
+    {
+        return route('ad.show', ['ad' => $this, 'slug' => $this->getSlug()]);
+    }
+
+
     public function getShortenedText(): string
     {
         return strlen($this->text) > 256 ? substr($this->text, 0, 230) . "..." : $this->text;

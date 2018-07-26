@@ -14,6 +14,10 @@ class AdController extends Controller
 
     public function index()
     {
+        if (is_numeric(request('page')) and request('page') <= 1) {
+            return redirect("/", 301);
+        }
+
         $viewableAds = Ad::where('status', Ad::STATUS_CONFIRMED)
             ->where('expires_at', '>', Carbon::now())
             ->orderByDesc('id');
@@ -22,6 +26,7 @@ class AdController extends Controller
             'simplePaginator' => $viewableAds->simplePaginate(static::RESULTS_PER_PAGE),
             'fullPaginator'   => $viewableAds->paginate(static::RESULTS_PER_PAGE),
             'tagCloud'        => Tag::getTagCloud(),
+            'title'           => config('app.name') . " - " . config('app.description'),
         ]);
     }
 
@@ -40,6 +45,7 @@ class AdController extends Controller
             'simplePaginator' => $search->simplePaginate(static::RESULTS_PER_PAGE),
             'fullPaginator'   => $search->paginate(static::RESULTS_PER_PAGE),
             'tagCloud'        => Tag::getTagCloud(),
+            'title'           => $query,
         ]);
     }
 
@@ -73,6 +79,7 @@ class AdController extends Controller
             'simplePaginator' => $tag->ads()->simplePaginate(static::RESULTS_PER_PAGE),
             'fullPaginator'   => $tag->ads()->paginate(static::RESULTS_PER_PAGE),
             'tagCloud'        => Tag::getTagCloud(),
+            'title'           => $tag->tag,
         ]);
     }
 

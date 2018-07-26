@@ -1,10 +1,10 @@
 @extends('layout.main')
 
-@section('canonicalUrl')
-    <link rel="canonical" href="{{route('ad.show', ['ad' => $ad, 'slug' => $ad->getSlug()])}}"/>
-@endsection
-
+@section('canonicalUrl', $ad->getCanonicalUrl())
+@section('description', $ad->getShortenedText())
 @section('title', config('app.name') . " - " . $ad->title)
+@section('keywords', $ad->tags()->exists() ? implode(",", $ad->tags()->pluck('tag')->all()) : config('app.keywords'))
+@section('og-image', $ad->pictures()->first()->url ?? env('LOGO_URL', asset('/img/logo_white.png')))
 
 @section('content')
     <div class="container mt-4 p-4" style="border: 1px solid #ddd; border-radius: 10px;">
@@ -76,9 +76,11 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <span style="display: inline-block; font-size: 9pt;">
+                        <time style="display: inline-block; font-size: 9pt;"
+                              datetime="{{$ad->created_at->toDateTimeString()}}"
+                              title="{{$ad->created_at->format("l, d F Y")}}">
                             {{__('Posted:')}} {{$ad->created_at->diffForHumans()}}
-                        </span>
+                        </time>
                     </div>
                 </div>
                 <div class="row mt-4">
