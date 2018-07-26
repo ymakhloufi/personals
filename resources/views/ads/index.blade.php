@@ -141,7 +141,11 @@
                                 <span class="d-none d-sm-inline">{{($ad->author_zip ?? '') . " "}}</span>
                                 {{$ad->author_town.","}}
                             @endif
-                            {{ucwords(strtolower(config('countries.all')[$ad->author_country]['name'] ?? ''))}}
+                            @if($ad->author_country)
+                                {{ucwords(strtolower(config('countries.all')[$ad->author_country]['name'] ?? ''))}}
+                            @else
+                                Anywhere
+                            @endif
                         </span>
                     </td>
                 </tr>
