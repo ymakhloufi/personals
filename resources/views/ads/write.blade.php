@@ -100,7 +100,7 @@
                     <div class="row mt-2">
                         <div class="col-sm-12">
                             <select name="author_country" class="form-control">
-                                <option selected>Anywhere</option>
+                                <option selected value="">Anywhere</option>
                                 @foreach(config('countries.all') as $code => $set)
                                     <option value="{{$code}}"
                                             @if(old('author_country') === $code or (!old('author_country') and config('countries.default') === $code))
