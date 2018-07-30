@@ -21,6 +21,7 @@ use Propaganistas\LaravelPhone\PhoneNumber;
  * @property string              $text
  * @property string              $author_name
  * @property string              $author_email
+ * @property string              $author_kik
  * @property string|null         $author_phone
  * @property string              $author_phone_whatsapp
  * @property string|null         $author_zip
@@ -102,6 +103,14 @@ class Ad extends Model
             return "https://wa.me/" . ltrim($internationalNuber, '+');
         } catch (\Exception $e) {
             return null;
+        }
+    }
+
+
+    public function getKikUrl(): ?string
+    {
+        if ($this->author_kik) {
+            return "https://kik.me/" . $this->author_kik;
         }
     }
 

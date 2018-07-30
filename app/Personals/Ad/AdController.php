@@ -115,6 +115,7 @@ class AdController extends Controller
             'author_name',
             'author_age',
             'author_email',
+            'author_kik',
             'author_phone',
             'author_zip',
             'author_town',

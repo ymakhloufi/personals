@@ -76,6 +76,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input class="form-control form-required"
+                                   type="text"
+                                   name="author_kik"
+                                   value="{{old('author_kik')}}"
+                                   placeholder="{{__('Your Kik Username')}}"
+                                   required
+                                   maxlength="32"/>
+                        </div>
+                    </div>
                     <div class="row mt-4">
                         <div class="col-sm-12" style="font-size: 14pt; font-weight: bold; ">
                             <span>Location</span>

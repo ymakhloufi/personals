@@ -70,6 +70,14 @@
                                         <a href="{{$ad->getWhatsAppUrl()}}" target="_blank">Whatsapp</a>
                                     </span>
                                 @endif
+                                <span class="d-md-none"><br></span>
+                                @if($ad->author_kik)
+                                    <span style="white-space: nowrap;">
+                                        <span class="d-md-inline d-none">&nbsp; | &nbsp; </span>
+                                        <i class="fab fa-kickstarter-k fa-1x"></i>
+                                        <a href="{{$ad->getKikUrl()}}" target="_blank">Kik</a>
+                                    </span>
+                                @endif
                                 <span style="white-space: nowrap;">
                                 &nbsp; | &nbsp; <i class="far fa-envelope"></i>
                                         <a href="#reply"> {{__("Reply")}}</a>
@@ -159,6 +167,10 @@
             radial-gradient(circle at center, #25d366 63%, transparent 0);
             stroke: #1b1e21;
             stroke-width: 2px;
+        }
+
+        .fa-kickstarter-k {
+            color: #25d366;
         }
     </style>
 
