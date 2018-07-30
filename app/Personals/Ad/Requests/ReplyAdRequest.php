@@ -27,7 +27,6 @@ class ReplyAdRequest extends FormRequest
         return [
             'name'                 => 'required|string',
             'email'                => 'required|email',
-            'phone'                => 'string',
             'message'              => 'required',
             'g-recaptcha-response' => 'required|captcha',
         ];
