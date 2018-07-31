@@ -83,7 +83,6 @@
                                    name="author_kik"
                                    value="{{old('author_kik')}}"
                                    placeholder="{{__('Your Kik Username')}}"
-                                   required
                                    maxlength="32"/>
                         </div>
                     </div>
