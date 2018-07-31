@@ -45,7 +45,7 @@
 </div>
 
 <script language="JavaScript">
-    function _(id) {
+    function _ (id) {
         return document.getElementById(id);
     }
 
