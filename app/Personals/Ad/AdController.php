@@ -116,6 +116,8 @@ class AdController extends Controller
 
     public function store(StoreAdRequest $request)
     {
+        $adminPublish = (\Auth::check() and $request->get('admin_publish'));
+
         /** @var Ad $ad */
         $ad = Ad::make($request->only([
             'title',
@@ -130,7 +132,7 @@ class AdController extends Controller
             'author_country',
         ]));
 
-        $ad->status                = Ad::STATUS_PENDING;
+        $ad->status                = $adminPublish ? Ad::STATUS_CONFIRMED : Ad::STATUS_PENDING;
         $ad->expires_at            = Carbon::now()->addWeeks(env('AD_DEFAULT_EXPIRY_IN_WEEKS', 4))->toDateTimeString();
         $ad->author_phone_whatsapp = (int) ($request->get('author_phone') and $request->has('author_phone_whatsapp'));
         $ad->commercial            = $request->has('commercial');
@@ -148,15 +150,21 @@ class AdController extends Controller
             $ad->addPicture($file);
         }
 
-        // send confirmation email
-        $ad->sendConformationEmail($request->get('author_email'));
+        if ($adminPublish) {
+            session()->flash('success', __('Your Ad has been published successfully!'));
 
-        session()->flash(
-            'success',
-            __('We have sent you a confirmation email. Please check your email inbox and ' .
-               'click on the confirmation link in order to make the publish the ad on our page.')
-        );
+            return redirect()->route('ad.show', ['ad' => $ad, 'slug' => $ad->getSlug()]);
+        } else {
+            // send confirmation email
+            $ad->sendConformationEmail($request->get('author_email'));
 
-        return redirect('/');
+            session()->flash(
+                'success',
+                __('We have sent you a confirmation email. Please check your email inbox and ' .
+                   'click on the confirmation link in order to make the publish the ad on our page.')
+            );
+
+            return redirect('/');
+        }
     }
 }

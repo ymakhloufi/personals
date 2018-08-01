@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'change-me@example.org',
         ]);
         $admin->password = bcrypt($password);
+        $admin->save();
 
 
         echo "\e[0;30;46m                                           \e[0m\n";

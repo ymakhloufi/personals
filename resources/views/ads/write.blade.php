@@ -129,7 +129,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             <div class="form-control" style="border: 0;">
                                 <div class=" checkbox checbox-switch switch-warning">
                                     <label style="cursor:pointer; white-space: nowrap;">
@@ -141,6 +141,20 @@
                                 </div>
                             </div>
                         </div>
+                        @if(\Auth::check())
+                            <div class="col-sm-6">
+                                <div class="form-control" style="border: 0;">
+                                    <div class=" checkbox checbox-switch switch-warning">
+                                        <label style="cursor:pointer; white-space: nowrap;">
+                                            <input type="checkbox" name="admin_publish"
+                                                    {{old('admin_publish') ? 'checked' : ''}}>
+                                            <span></span>
+                                            Instant Publish
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
