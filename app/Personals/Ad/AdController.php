@@ -130,7 +130,7 @@ class AdController extends Controller
         ]));
 
         $ad->status                = $adminPublish ? Ad::STATUS_CONFIRMED : Ad::STATUS_PENDING;
-        $ad->expires_at            = Carbon::now()->addWeeks(env('AD_DEFAULT_EXPIRY_IN_WEEKS', 4))->toDateTimeString();
+        $ad->expires_at            = Carbon::now()->addMonths(env('AD_DEFAULT_EXPIRY_IN_MONTHS', 1))->toDateTimeString();
         $ad->author_phone_whatsapp = (int) ($request->get('author_phone') and $request->has('author_phone_whatsapp'));
         $ad->commercial            = $request->has('commercial');
         $ad->save();
