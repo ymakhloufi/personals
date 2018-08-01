@@ -41,7 +41,12 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug'           => env('APP_DEBUG', false),
+    'debug_blacklist' => [
+        '_ENV'    => array_keys($_ENV),
+        '_SERVER' => array_keys($_SERVER),
+        '_COOKIE' => array_keys($_COOKIE),
+    ],
 
     /*
     |--------------------------------------------------------------------------
