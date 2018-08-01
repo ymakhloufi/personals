@@ -46,15 +46,13 @@ class Ad extends Model
 
     public static function search($query): \Illuminate\Support\Collection
     {
-        $firstPrioAds = Ad
-            ::where('status', static::STATUS_CONFIRMED)
-            ->where(function (Builder $builder) use ($query) {
-                $builder->where('title', 'like', '%' . $query . '%')
-                    ->orWhere('author_name', 'like', '%' . $query . '%')
-                    ->orWhere('author_email', 'like', '%' . $query . '%')
-                    ->orWhere('author_phone', 'like', '%' . $query . '%')
-                    ->orWhere('author_town', 'like', '%' . $query . '%');
-            })
+        $firstPrioAds = Ad::where(function (Builder $builder) use ($query) {
+            $builder->where('title', 'like', '%' . $query . '%')
+                ->orWhere('author_name', 'like', '%' . $query . '%')
+                ->orWhere('author_email', 'like', '%' . $query . '%')
+                ->orWhere('author_phone', 'like', '%' . $query . '%')
+                ->orWhere('author_town', 'like', '%' . $query . '%');
+        })
             ->orderByDesc('id')
             ->get();
 
@@ -119,6 +117,12 @@ class Ad extends Model
     public function isExpired(): bool
     {
         return $this->expires_at->isPast();
+    }
+
+
+    public function isPublished()
+    {
+        return $this->status === static::STATUS_CONFIRMED;
     }
 
 

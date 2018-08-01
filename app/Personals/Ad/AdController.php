@@ -40,7 +40,9 @@ class AdController extends Controller
         }
 
         return view('ads.search', [
-            'ads'      => Ad::search($query),
+            'ads'      => Ad::search($query)->filter(function (Ad $ad) {
+                return $ad->isPublished() and !$ad->isExpired();    // remove expired and unconfirmed ads
+            }),
             'tagCloud' => Tag::getTagCloud(),
             'title'    => $query,
         ]);
