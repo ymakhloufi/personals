@@ -52,7 +52,12 @@ class AdController extends Controller
 
     public function reply(ReplyAdRequest $request, Ad $ad)
     {
-        $ad->sendReply($request->get('name'), $request->get('email'), $request->get('phone'), $request->get('message'));
+        $ad->sendReply(
+            $request->get('name'),
+            $request->get('email'),
+            $request->get('phone') ?? '',
+            $request->get('message')
+        );
 
         session()->flash('success', __('Your message has been sent. Good Luck!'));
 
