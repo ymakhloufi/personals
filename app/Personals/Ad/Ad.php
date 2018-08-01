@@ -44,7 +44,7 @@ class Ad extends Model
     const STATUS_CONFIRMED = 'confirmed';
 
 
-    public static function search($query): Builder
+    public static function search($query): \Illuminate\Support\Collection
     {
         $firstPrioAds = Ad
             ::where('status', static::STATUS_CONFIRMED)
@@ -55,7 +55,8 @@ class Ad extends Model
                     ->orWhere('author_phone', 'like', '%' . $query . '%')
                     ->orWhere('author_town', 'like', '%' . $query . '%');
             })
-            ->orderByDesc('id');
+            ->orderByDesc('id')
+            ->get();
 
         $secondPrioAds = collect();
         foreach (Tag::where('tag', 'like', '%' . $query . '%')->with('ads')->get() as $tag) {

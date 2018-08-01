@@ -39,13 +39,10 @@ class AdController extends Controller
             return redirect('/');
         }
 
-        $search = Ad::search($query);
-
-        return view('ads.index', [
-            'simplePaginator' => $search->simplePaginate(static::RESULTS_PER_PAGE),
-            'fullPaginator'   => $search->paginate(static::RESULTS_PER_PAGE),
-            'tagCloud'        => Tag::getTagCloud(),
-            'title'           => $query,
+        return view('ads.search', [
+            'ads'      => Ad::search($query),
+            'tagCloud' => Tag::getTagCloud(),
+            'title'    => $query,
         ]);
     }
 
