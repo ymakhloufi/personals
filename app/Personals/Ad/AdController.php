@@ -72,7 +72,10 @@ class AdController extends Controller
 
     public function showByTag(string $tag)
     {
-        $tag = Tag::where('tag', '=', $tag)->orderByDesc('id')->first();
+        $tag = Tag::where('tag', '=', $tag)
+            ->where('status', Ad::STATUS_CONFIRMED)
+            ->where('expires_at', '>', Carbon::now())
+            ->orderByDesc('id')->first();
 
         return view('ads.index', [
             'tag'             => $tag,
