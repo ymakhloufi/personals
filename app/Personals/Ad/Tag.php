@@ -25,12 +25,12 @@ class Tag extends Model
     }
 
 
-    private static function getTagsByCount()
+    private static function getTagsByCount(int $count)
     {
         return static::join('ad_tag', 'tag_id', '=', 'tags.id')
             ->groupBy('tag')
             ->orderByRaw('count(*) DESC')
-            ->limit(30)
+            ->limit($count)
             ->select([\DB::raw('count(*) as count'), 'tag'])
             ->pluck('count', 'tag');
     }
@@ -38,16 +38,18 @@ class Tag extends Model
 
     public static function getTagCloud()
     {
-        $cloud = new TagCloud();
+        return \Cache::remember('tagCloud', 60, function () {
+            $cloud = new TagCloud();
 
-        $cloud->setHtmlizeTagFunction(function ($tag, $size) {
-            return '<a class="tag size' . $size . '" href="' . $tag['url'] . '">' . $tag['tag'] . '</a>';
+            $cloud->setHtmlizeTagFunction(function ($tag, $size) {
+                return '<a class="tag size' . $size . '" href="' . $tag['url'] . '">' . $tag['tag'] . '</a>';
+            });
+
+            foreach (Tag::getTagsByCount(30) as $tag => $count) {
+                $cloud->addTag(['tag' => $tag, 'url' => route('tag.show', ['tag' => $tag]), 'size' => $count]);
+            }
+
+            return $cloud->render();
         });
-
-        foreach (static::getTagsByCount() as $tag => $count) {
-            $cloud->addTag(['tag' => $tag, 'url' => route('tag.show', ['tag' => $tag]), 'size' => $count]);
-        }
-
-        return $cloud->render();
     }
 }
