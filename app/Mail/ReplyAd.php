@@ -18,18 +18,21 @@ class ReplyAd extends Mailable
     public $text;
 
 
-    public function __construct(Ad $ad, string $name, string $phone, string $email, string $message)
+    public function __construct(Ad $ad, string $name, string $phone, string $senderEmail, string $message)
     {
         $this->ad    = $ad;
         $this->name  = $name;
         $this->phone = $phone;
-        $this->email = $email;
+        $this->email = $senderEmail;
         $this->text  = $message;
     }
 
 
     public function build()
     {
-        return $this->markdown('emails.replyAdMd')->text('emails.replyAdPlain');
+        return $this->markdown('emails.replyAdMd')
+            ->text('emails.replyAdPlain')
+            ->replyTo($this->email)
+            ->subject("Reply From " . $this->name);
     }
 }

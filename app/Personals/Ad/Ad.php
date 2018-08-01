@@ -164,7 +164,6 @@ class Ad extends Model
 
     public function sendReply(string $name, string $email, string $phone, string $message): void
     {
-        \Mail::alwaysReplyTo($email);
-        \Mail::to($this->author_email)->send(new ReplyAd($this, $name, $phone, $email, $message));
+        \Mail::to($this->author_email)->send(new ReplyAd($this, $name, $phone ?? '', $email, $message));
     }
 }
