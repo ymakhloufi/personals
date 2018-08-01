@@ -76,15 +76,13 @@ class AdController extends Controller
 
     public function showByTag(string $tag)
     {
-        $tag = Tag::where('tag', '=', $tag)
-            ->where('status', Ad::STATUS_CONFIRMED)
-            ->where('expires_at', '>', Carbon::now())
-            ->orderByDesc('id')->first();
+        $tag = Tag::where('tag', '=', $tag)->orderByDesc('id')->first();
+        $ads = $tag->ads()->where('status', Ad::STATUS_CONFIRMED)->where('expires_at', '>', Carbon::now());
 
         return view('ads.index', [
             'tag'             => $tag,
-            'simplePaginator' => $tag->ads()->simplePaginate(static::RESULTS_PER_PAGE),
-            'fullPaginator'   => $tag->ads()->paginate(static::RESULTS_PER_PAGE),
+            'simplePaginator' => $ads->simplePaginate(static::RESULTS_PER_PAGE),
+            'fullPaginator'   => $ads->paginate(static::RESULTS_PER_PAGE),
             'tagCloud'        => Tag::getTagCloud(),
             'title'           => $tag->tag,
         ]);
