@@ -146,7 +146,7 @@
                                 <div class="form-control" style="border: 0;">
                                     <div class=" checkbox checbox-switch switch-warning">
                                         <label style="cursor:pointer; white-space: nowrap;">
-                                            <input type="checkbox" name="admin_publish"
+                                            <input type="checkbox" name="admin_publish" checked
                                                     {{old('admin_publish') ? 'checked' : ''}}>
                                             <span></span>
                                             Instant Publish
