@@ -23,3 +23,7 @@ Route::group(['namespace' => '\Personals'], function () {
 $this->get('login', 'App\Http\Controllers\Auth\LoginController@showLoginForm')->name('login');
 $this->post('login', 'App\Http\Controllers\Auth\LoginController@login');
 $this->get('logout', 'App\Http\Controllers\Auth\LoginController@logout')->name('logout');
+
+$this->get("/healthcheck", function () {
+    return Personals\Ad\Ad::first()->id;
+});
