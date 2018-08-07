@@ -6,7 +6,9 @@
     <script>
         window.dataLayer = window.dataLayer || [];
 
-        function gtag () {dataLayer.push(arguments);}
+        function gtag() {
+            dataLayer.push(arguments);
+        }
 
         gtag('js', new Date());
         gtag('config', 'UA-123171119-1');
@@ -53,9 +55,19 @@
         @yield('content')
     </div>
 </div>
+<footer class="page-footer font-small blue">
+
+    <!-- Copyright -->
+    <div class="text-center py-3" style="background: linear-gradient(10deg, #f7d785 0%,#fccd4d 100%); ">
+        Copyright &copy; 2018: RopeBox.club<br/>
+        <span style="font-size: 9pt;">{!! str_replace("@", " <i class='fa fa-at'></i> ", config('mail.from.address')) !!}</span>
+    </div>
+    <!-- Copyright -->
+
+</footer>
 
 <script language="JavaScript">
-    function _ (id) {
+    function _(id) {
         return document.getElementById(id);
     }
 
