@@ -22,6 +22,7 @@ use Propaganistas\LaravelPhone\PhoneNumber;
  * @property string              $author_name
  * @property string              $author_email
  * @property string              $author_kik
+ * @property string              $author_snapchat
  * @property string|null         $author_phone
  * @property string              $author_phone_whatsapp
  * @property string|null         $author_zip
@@ -110,6 +111,14 @@ class Ad extends Model
     {
         if ($this->author_kik) {
             return "https://kik.me/" . $this->author_kik;
+        }
+    }
+
+
+    public function getSnapchatUrl(): ?string
+    {
+        if ($this->author_snapchat) {
+            return "https://www.snapchat.com/add/" . $this->author_snapchat;
         }
     }
 

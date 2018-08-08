@@ -78,6 +78,13 @@
                                         <a href="{{$ad->getKikUrl()}}" target="_blank">Kik</a>
                                     </span>
                                 @endif
+                                @if($ad->author_snapchat)
+                                    <span style="white-space: nowrap;">
+                                        <span class="d-md-inline d-none">&nbsp; | &nbsp; </span>
+                                        <i class="fab fa-snapchat-ghost fa-1x"></i>
+                                        <a href="{{$ad->getSnapchatUrl()}}" target="_blank">Snapchat</a>
+                                    </span>
+                                @endif
                                 <span style="white-space: nowrap;">
                                 &nbsp; | &nbsp; <i class="far fa-envelope"></i>
                                         <a href="#reply"> {{__("Reply")}}</a>
@@ -171,6 +178,10 @@
 
         .fa-kickstarter-k {
             color: #25d366;
+        }
+
+        .fa-snapchat-ghost {
+            color: #cc0;
         }
     </style>
 

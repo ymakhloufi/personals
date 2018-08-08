@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="row mt-2">
-                        <div class="col-sm-7">
+                        <div class="col-sm-6">
                             <input class="form-control"
                                    type="text"
                                    name="author_phone"
@@ -61,7 +61,7 @@
                                    placeholder="{{__('Your Phone Number')}}"
                                    maxlength="32"/>
                         </div>
-                        <div class="col-sm-5" style="margin-left: 0; padding-left: 0;">
+                        <div class="col-sm-6" style="">
                             <div class="form-control" style="border: 0;">
                                 <div class=" checkbox checbox-switch switch-warning">
                                     <label style="cursor:pointer; white-space: nowrap;">
@@ -77,12 +77,20 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12">
-                            <input class="form-control form-required"
+                        <div class="col-sm-6">
+                            <input class="form-control"
                                    type="text"
                                    name="author_kik"
                                    value="{{old('author_kik')}}"
-                                   placeholder="{{__('Your Kik Username')}}"
+                                   placeholder="{{__('Kik Username')}}"
+                                   maxlength="32"/>
+                        </div>
+                        <div class="col-sm-6">
+                            <input class="form-control"
+                                   type="text"
+                                   name="author_snapchat"
+                                   value="{{old('author_snapchat')}}"
+                                   placeholder="{{__('Snapchat Username')}}"
                                    maxlength="32"/>
                         </div>
                     </div>
@@ -172,7 +180,7 @@
                             <textarea required
                                       name="text"
                                       id="text"
-                                      rows="10"
+                                      rows="9"
                                       class="form-control"
                                       placeholder="Text of Your Ad"
                             >{{old('text')}}</textarea>
@@ -207,26 +215,26 @@
                     <input type="file" name="image[]" onchange="preview(this, 'preview1'); unhide('picture2');"/>
                 </div>
             </div>
-            <div class="row mb-4" id="picture2" style="display:none;">
+            <div class="row mb-4" id="picture2" style="display:none; border-top: 1px solid #ccc; padding-top: 5px;">
                 <div class="col-sm-3 d-none d-sm-inline"><img src="" style="width:100%" id="preview2"/></div>
                 <div class="col-sm-9">
 
                     <input type="file" name="image[]" onchange="preview(this, 'preview2'); unhide('picture3');"/>
                 </div>
             </div>
-            <div class="row mb-4" id="picture3" style="display:none;">
+            <div class="row mb-4" id="picture3" style="display:none; border-top: 1px solid #ccc; padding-top: 5px;">
                 <div class="col-sm-3 d-none d-sm-inline"><img src="" style="width:100%" id="preview3"/></div>
                 <div class="col-sm-9">
                     <input type="file" name="image[]" onchange="preview(this, 'preview3'); unhide('picture4');"/>
                 </div>
             </div>
-            <div class="row mb-4" id="picture4" style="display:none;">
+            <div class="row mb-4" id="picture4" style="display:none; border-top: 1px solid #ccc; padding-top: 5px;">
                 <div class="col-sm-3 d-none d-sm-inline"><img src="" style="width:100%" id="preview4"/></div>
                 <div class="col-sm-9">
                     <input type="file" name="image[]" onchange="preview(this, 'preview4'); unhide('picture5');"/>
                 </div>
             </div>
-            <div class="row mb-4" id="picture5" style="display:none;">
+            <div class="row mb-4" id="picture5" style="display:none; border-top: 1px solid #ccc; padding-top: 5px;">
                 <div class="col-sm-3 d-none d-sm-inline"><img src="" style="width:100%" id="preview5"/></div>
                 <div class="col-sm-9">
                     <input type="file" name="image[]" onchange="preview(this, 'preview5');"/>

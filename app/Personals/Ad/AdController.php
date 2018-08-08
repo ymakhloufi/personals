@@ -123,6 +123,7 @@ class AdController extends Controller
             'author_age',
             'author_email',
             'author_kik',
+            'author_snapchat',
             'author_phone',
             'author_zip',
             'author_town',
