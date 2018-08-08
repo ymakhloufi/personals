@@ -28,6 +28,7 @@ class StoreAdRequest extends FormRequest
             'title'                => 'required|string',
             'text'                 => 'required|string',
             'author_name'          => 'required|string',
+            'author_age'           => 'numeric',
             'author_email'         => 'required|email',
             'image.*'              => 'mimes:jpg,jpeg,png|max:4096',
             'g-recaptcha-response' => 'required|captcha',
