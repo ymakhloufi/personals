@@ -141,7 +141,7 @@ class Ad extends Model
                     </a>
                 </div>
                 <div class='col-sm-3 text-center mt-2'>
-                    <a class='btn btn-light btn-md' target='_blank' href='{{$this->getFacebookShareLink()}'>
+                    <a class='btn btn-light btn-md' target='_blank' href='{$this->getFacebookShareLink()}'>
                         <i class='fab fa-facebook'></i> Share <span class='d-sm-none d-md-inline'>on Facebook</span>
                     </a>
                 </div>
