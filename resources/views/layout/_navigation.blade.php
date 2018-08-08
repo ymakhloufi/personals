@@ -79,7 +79,7 @@
 </nav>
 
 @if(session()->has('success'))
-    <div class="alert alert-success m-5 text-center">{{session()->get('success')}}</div>
+    <div class="alert alert-success m-5 text-center">{!! session()->get('success') !!}</div>
 @endif
 
 @if(session()->has('error'))

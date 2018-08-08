@@ -70,7 +70,7 @@ class AdController extends Controller
             return response(__("This ad has not been confirmed yet - please check your email inbox"), 403);
         }
 
-        return view('ads.show', ['ad' => $ad,]);
+        return view('ads.show', ['ad' => $ad]);
     }
 
 
@@ -95,7 +95,8 @@ class AdController extends Controller
             return response(__("The confirmation token is invalid."));
         }
 
-        session()->flash('success', __('Your Ad has been published successfully!'));
+        $message = "Your Ad has been published successfully!" . $ad->getShareLinkMarkup();
+        session()->flash('success', $message);
 
         return redirect()->route('ad.show', ['ad' => $ad, 'slug' => $ad->getSlug()]);
     }

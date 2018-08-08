@@ -86,6 +86,12 @@ class Ad extends Model
     }
 
 
+    public function getShortUrl()
+    {
+        return route('ad.show', ['ad' => $this, 'slug' => null]);
+    }
+
+
     public function getShortenedText(): string
     {
         return strlen($this->text) > 256 ? substr($this->text, 0, 230) . "..." : $this->text;
@@ -120,6 +126,53 @@ class Ad extends Model
         if ($this->author_snapchat) {
             return "https://www.snapchat.com/add/" . $this->author_snapchat;
         }
+    }
+
+
+    public function getShareLinkMarkup()
+    {
+        $randomId = str_random(8);
+
+        return "
+            <div class='row'>
+                <div class='col-sm-3 text-center mt-2'>
+                    <a class='btn btn-light btn-md' target='_blank' href='{$this->getTwitterShareLink()}'>
+                        <i class='fab fa-twitter'></i> Share <span class='d-sm-none d-md-inline'>on Twitter</span>
+                    </a>
+                </div>
+                <div class='col-sm-3 text-center mt-2'>
+                    <a class='btn btn-light btn-md' target='_blank' href='{{$this->getFacebookShareLink()}'>
+                        <i class='fab fa-facebook'></i> Share <span class='d-sm-none d-md-inline'>on Facebook</span>
+                    </a>
+                </div>
+                <div class='col-sm-6 mt-2 text-center'
+                     style='border-radius: 10px; margin: auto;'>
+                     <table>
+                        <tr>
+                            <td width='1%'><label for='direct_link_" . $randomId . "'><b>Link</b>&nbsp;&nbsp;</label></td>
+                            <td width='99%'><input type='text' id='direct_link_" . $randomId . "' onfocus='this.select()' onclick='this.select()' readonly
+                           class='form-control d-inline' value='{$this->getShortUrl()}'/></td>
+                        </tr>
+                    </table>    
+                </div>
+            </div>";
+    }
+
+
+    public function getTwitterShareLink()
+    {
+        // final "\n" is important to separate the url from the text in the tweet
+        $text     = urlencode("Hey, I've just posted this ad!\nPlease visit, comment and retweet!\n");
+        $hashTags = str_replace(" ", "", implode(",", $this->tags()->pluck('tag')->all()));
+        $url      = $this->getCanonicalUrl();
+
+        return "https://twitter.com/intent/tweet?text=$text&hashtags=$hashTags&url=$url";
+    }
+
+
+    public function getFacebookShareLink()
+    {
+        return "https://www.facebook.com/sharer.php?u=" . urlencode($this->getCanonicalUrl());
     }
 
 

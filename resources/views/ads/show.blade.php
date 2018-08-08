@@ -80,7 +80,7 @@
                                 @endif
                                 @if($ad->author_snapchat)
                                     <span style="white-space: nowrap;">
-                                        <span class="d-md-inline d-none">&nbsp; | &nbsp; </span>
+                                        &nbsp; | &nbsp;
                                         <i class="fab fa-snapchat-ghost fa-1x"></i>
                                         <a href="{{$ad->getSnapchatUrl()}}" target="_blank">Snapchat</a>
                                     </span>
@@ -125,14 +125,16 @@
                     </div>
                 </div>
             </div>
+            <div style='padding-top: 20px;'>
+                {!! $ad->getShareLinkMarkup() !!}
+            </div>
         </div>
+
         <div class="row mt-4 border-top" style="padding-top: 20px;" id="reply">
             <div class="col-sm-12">
                 @if($ad->isExpired())
                     <div align="center">
-                        <b>
-                            This Ad has expired. You can no longer reply to it!
-                        </b>
+                        <b>This Ad has expired. You can no longer reply to it!</b>
                     </div>
                 @else
                     <form method="post" action="{{route('ad.reply', ['ad' => $ad])}}">
@@ -182,6 +184,14 @@
 
         .fa-snapchat-ghost {
             color: #cc0;
+        }
+
+        .fa-twitter {
+            color: #77f;
+        }
+
+        .fa-facebook {
+            color: #37b;
         }
     </style>
 
