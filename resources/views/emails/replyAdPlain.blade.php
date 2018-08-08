@@ -9,7 +9,7 @@
 {!! nl2br(e($text)) !!}
 
 {{ __('Link to your ad:') }}
-route('ad.tag.show', ['ad' => $ad, 'slug' => $ad->getSlug()])
+{{route('ad.tag.show', ['ad' => $ad, 'slug' => $ad->getSlug()])}}
 
 {{ __('Best,') }}
 {{ config('app.name') }}
