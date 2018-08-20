@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string              $email
  * @property string              $phone
  * @property integer             $ad_id
+ * @property-read Ad             $ad
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
  * @mixin \Eloquent

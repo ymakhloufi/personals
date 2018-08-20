@@ -2,14 +2,16 @@
 
 namespace Personals\Ad;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use lotsofcode\TagCloud\TagCloud;
 
 /**
  * Personals\User\User
  *
- * @property integer $id
- * @property string  $tag
+ * @property integer              $id
+ * @property string               $tag
+ * @property-read Ad[]|Collection $ads
  * @mixin \Eloquent
  */
 class Tag extends Model

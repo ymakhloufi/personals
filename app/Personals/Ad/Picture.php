@@ -14,6 +14,8 @@ use Intervention\Image\ImageManager;
  * @property integer $id
  * @property integer $ad_id
  * @property string  $url
+ * @property string  $thumbnail_url
+ * @property-read Ad $ad
  * @mixin \Eloquent
  */
 class Picture extends Model
