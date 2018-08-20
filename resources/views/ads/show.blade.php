@@ -25,7 +25,7 @@
                                 <div style="width:30%;" class="m-1">
                                     <a href="javascript: swapImg('{{$pic->url}}');">
                                         <img style="max-width: 100px; width:100%; max-height: 75px;"
-                                             src="{{$pic->url}}"/>
+                                             src="{{$pic->thumbnail_url ?? $pic->url}}"/>
                                     </a>
                                 </div>
                             @endforeach

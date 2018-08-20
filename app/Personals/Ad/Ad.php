@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\UploadedFile;
+use Intervention\Image\ImageManager;
 use Propaganistas\LaravelPhone\PhoneNumber;
 
 /**
@@ -228,8 +229,17 @@ class Ad extends Model
     public function addPicture(UploadedFile $file): void
     {
         $fileName = str_random() . "." . $file->getClientOriginalExtension();
+        if (in_array(strtolower($file->getClientOriginalExtension()), ['jpg', 'jpeg', 'png', 'gif'])) {
+            $image = (new ImageManager())->make($file->getRealPath());
+            $image->orientate();
+            $image->save();
+        }
         \Storage::putFileAs('images/' . $this->id, $file, $fileName);
-        $this->pictures()->create(['url' => \Storage::url('images/' . $this->id . "/" . $fileName)]);
+        $thumbnailFileName = Picture::makeThumbnail($file, $this, explode(".", $fileName)[0]);
+        $this->pictures()->create([
+            'url'           => \Storage::url('images/' . $this->id . "/" . $fileName),
+            'thumbnail_url' => \Storage::url('images/' . $this->id . "/" . $thumbnailFileName),
+        ]);
     }
 
 

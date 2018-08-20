@@ -122,7 +122,8 @@
                 <tr class="clickable-row" style="cursor: pointer;" data-href='/ads/{{$ad->id}}/{{$ad->getSlug()}}'>
                     <td class="d-none d-sm-table-cell">
                         @if($ad->pictures()->exists())
-                            <img src="{{$ad->pictures()->first()->url}}" class="img-preview"/>
+                            <img src="{{$ad->pictures()->first()->thumbnail_url ?? $ad->pictures()->first()->url}}"
+                                 class="img-preview"/>
                         @else
                             <div class="img-placeholder"><i class=" fa fa-user fa-4x"></i></div>
                         @endif

@@ -50,8 +50,8 @@ return [
 
         'localUploadedPictures' => [
             'driver'     => 'local',
-            'root'       => public_path('pictures'),
-            'url'        => env('APP_URL') . '/pictures',
+            'root'       => public_path(),
+            'url'        => env('APP_URL'),
             'visibility' => 'public',
         ],
 
