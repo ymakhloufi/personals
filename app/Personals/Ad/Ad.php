@@ -6,6 +6,7 @@ use App\Mail\PublishAd;
 use App\Mail\ReplyAd;
 use Cocur\Slugify\Slugify;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,24 +16,27 @@ use Propaganistas\LaravelPhone\PhoneNumber;
 /**
  * Personals\User\User
  *
- * @property integer             $id
- * @property string              $title
- * @property string              $slug
- * @property string              $text
- * @property string              $author_name
- * @property string              $author_email
- * @property string              $author_kik
- * @property string              $author_snapchat
- * @property string|null         $author_phone
- * @property string              $author_phone_whatsapp
- * @property string|null         $author_zip
- * @property string|null         $author_town
- * @property string              $author_country
- * @property boolean             $commercial
- * @property integer             $status
- * @property \Carbon\Carbon      $expires_at
- * @property \Carbon\Carbon|null $created_at
- * @property \Carbon\Carbon|null $updated_at
+ * @property integer                   $id
+ * @property string                    $title
+ * @property string                    $slug
+ * @property string                    $message
+ * @property string                    $author_name
+ * @property string                    $author_email
+ * @property string                    $author_kik
+ * @property string                    $author_snapchat
+ * @property string|null               $author_phone
+ * @property string                    $author_phone_whatsapp
+ * @property string|null               $author_zip
+ * @property string|null               $author_town
+ * @property string                    $author_country
+ * @property boolean                   $commercial
+ * @property integer                   $status
+ * @property-read Picture[]|Collection $pictures
+ * @property-read Tag[]|Collection     $tags
+ * @property-read Reply[]|Collection   $replies
+ * @property \Carbon\Carbon            $expires_at
+ * @property \Carbon\Carbon|null       $created_at
+ * @property \Carbon\Carbon|null       $updated_at
  * @mixin \Eloquent
  */
 class Ad extends Model
@@ -77,6 +81,12 @@ class Ad extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+
+    public function replies(): HasMany
+    {
+        return $this->hasMany(Reply::class);
     }
 
 
@@ -231,6 +241,12 @@ class Ad extends Model
 
     public function sendReply(string $name, string $email, string $phone, string $message): void
     {
+        $this->replies()->create([
+            'name'    => $name,
+            'email'   => $email,
+            'phone'   => $phone,
+            'message' => $message,
+        ]);
         \Mail::to($this->author_email)->send(new ReplyAd($this, $name, $phone ?? '', $email, $message));
     }
 }

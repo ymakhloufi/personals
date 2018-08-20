@@ -31,7 +31,7 @@ class CreateAdTagTable extends Migration
     public function down()
     {
         Schema::table('ad_tag', function (Blueprint $table) {
-            $table->dropForeign('ad_tag_ad_id_foreign');
+            $table->dropForeign('');
             $table->dropForeign('ad_tag_tag_id_foreign');
         });
         Schema::dropIfExists('ad_tag');
