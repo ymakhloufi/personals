@@ -3,6 +3,10 @@ php_value post_max_size 64M
 
 Header set Cache-Control "max-age=3600, public"
 
+<IfModule mod_headers.c>
+    Header append Vary: Accept-Encoding
+</IfModule>
+
 <IfModule mod_filter.c>
     # Activate GZip compression for mime types where it makes sense
     AddOutputFilterByType DEFLATE "application/javascript" \
