@@ -24,7 +24,7 @@
                             @foreach($ad->pictures as $pic)
                                 <div style="width:30%;" class="m-1">
                                     <a href="javascript: swapImg('{{$pic->url}}');">
-                                        <img style="max-width: 100px; width:100%; max-height: 75px;"
+                                        <img style="max-width:100%; height:auto;"
                                              src="{{$pic->thumbnail_url ?? $pic->url}}"/>
                                     </a>
                                 </div>

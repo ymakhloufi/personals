@@ -16,8 +16,8 @@
 
         .img-preview {
             border: 1px solid #aaa;
-            max-width: 66px;
-            max-height: 66px;
+            max-width: 100%;
+            height: auto;
             padding: 5px;
         }
 
