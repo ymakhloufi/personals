@@ -123,7 +123,7 @@
                     <td class="d-none d-sm-table-cell">
                         @if($ad->pictures()->exists())
                             <img src="{{$ad->pictures()->first()->thumbnail_url ?? $ad->pictures()->first()->url}}"
-                                 class="img-preview"/>
+                                 class="img-preview" alt="{{$ad->author_name}} thumbnail image"/>
                         @else
                             <div class="img-placeholder"><i class=" fa fa-user fa-4x"></i></div>
                         @endif

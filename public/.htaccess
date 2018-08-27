@@ -1,12 +1,28 @@
 php_value upload_max_filesize 64M
 php_value post_max_size 64M
 
-Header set Cache-Control "max-age=3600, public"
-
 <IfModule mod_headers.c>
-    Header append Vary: Accept-Encoding
-</IfModule>
+    # Set caching time for al objects to one hour
+    Header set Cache-Control "max-age=3600, public"
 
+    # Allows CDN to cache two versions of the resource on proxies: one compressed, and one uncompressed
+    Header append Vary: Accept-Encoding
+
+    # Prevent click-jacking
+    Header always set X-FRAME-OPTIONS "DENY"
+
+    # Replace deprecated meta http-equiv markup with HTTP header
+    Header set X-UA-Compatible "IE=Edge,chrome=1"
+
+    # Prevent XSS in older browsers
+    Header always set X-XSS-Protection "1"
+
+    # Prevent sending concealed scripts as images or other mime types
+    Header always set X-Content-Type-Options "nosniff"
+
+    # Strictly enforce HTTPS (browsers will auto-replace HTTP with HTTPS)
+    Header always set Strict-Transport-Security "max-age=2592000; includeSubDomains"
+</IfModule>
 <IfModule mod_filter.c>
     # Activate GZip compression for mime types where it makes sense
     AddOutputFilterByType DEFLATE "application/javascript" \

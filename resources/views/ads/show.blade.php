@@ -15,7 +15,8 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <a href="{{$ad->pictures()->first()->url}}" target="_blank" id="preview_link">
-                                <img src="{{$ad->pictures()->first()->url}}" style="width: 100%;" id="preview_img">
+                                <img src="{{$ad->pictures()->first()->url}}" style="width: 100%;" id="preview_img"
+                                     at="preview image">
                             </a>
                         </div>
                     </div>
@@ -25,7 +26,8 @@
                                 <div style="width:30%;" class="m-1">
                                     <a href="javascript: swapImg('{{$pic->url}}');">
                                         <img style="max-width:100%; height:auto;"
-                                             src="{{$pic->thumbnail_url ?? $pic->url}}"/>
+                                             src="{{$pic->thumbnail_url ?? $pic->url}}"
+                                             alt="{{$ad->author_name}} thumbnail image"/>
                                     </a>
                                 </div>
                             @endforeach

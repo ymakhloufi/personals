@@ -6,7 +6,7 @@
     <script>
         window.dataLayer = window.dataLayer || [];
 
-        function gtag() {
+        function gtag () {
             dataLayer.push(arguments);
         }
 
@@ -14,7 +14,6 @@
         gtag('config', 'UA-123171119-1');
     </script>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="@yield('description', config('app.description'))">
     <meta name="keywords" content="@yield('keywords', config('app.keywords'))">
@@ -23,10 +22,12 @@
     <meta property="og:title" content="@yield('title', config('app.name'))"/>
     <meta property="og:description" content="@yield('description', config('app.description'))"/>
     <meta property="og:url" content="@yield('canonicalUrl', URL::full())"/>
-    <meta property="og:image" content="@yield('og-image', env('LOGO_URL', asset('/img/logo_white.png')))"/>
+    <meta property="og:image" content="@yield('og-image', config('app.logo') ?? asset('/img/logo_white.png'))"/>
+    <meta property="og:type" content="article"/>
 
     <script src="{{asset("js/app.js")}}"></script>
     {!! \NoCaptcha::renderJs() !!}
+    <link rel="icon" type="image/png" href="{{config('app.favicon') ?? asset('/img/logo.png')}}"/>
     <link rel="stylesheet" href="{{asset("/css/app.css")}}"/>
     <link rel="stylesheet" href="/css/checbox.css">
     <title>@yield('title', config('app.name'))</title>
@@ -59,15 +60,15 @@
 
     <!-- Copyright -->
     <div class="text-center py-3" style="background: linear-gradient(10deg, #f7d785 0%,#fccd4d 100%); ">
-        Copyright &copy; 2018: RopeBox.club<br/>
+        Copyright &copy; 2018: {{config('app.name')}}<br/>
         <span style="font-size: 9pt;">{!! str_replace("@", " <i class='fa fa-at'></i> ", config('mail.from.address')) !!}</span>
     </div>
     <!-- Copyright -->
 
 </footer>
 
-<script language="JavaScript">
-    function _(id) {
+<script language="JavaScript" defer>
+    function _ (id) {
         return document.getElementById(id);
     }
 
@@ -77,5 +78,10 @@
         });
     });
 </script>
+<noscript>
+    We try our best to make this website work without javascript.
+    However if you want to write or reply to an ad, we have to ask you to activate it
+    in order to solve the security captcha. We might replace recaptcha with a homebrewed non-js
+    variant one day, but currently the focus is on other parts of this website.
 </body>
 </html>

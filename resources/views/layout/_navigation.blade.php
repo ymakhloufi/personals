@@ -48,12 +48,19 @@
         <span class="d-none d-sm-inline"> {{config('app.name')}}</span>
     </a>
     <form action="{{route('ad.search')}}" method="get" id="search-form" class="search form-inline">
-        <i class="fa fa-search" onclick="
-                            if(_('search-input').value !== ''){
-                              _('search-form').submit();
-                            } else {
-                              _('search-input').focus();
-                            }"></i>
+        <label for="search-input">
+            <button type="submit" class="btn btn-link" style="color: inherit; padding: 0;">
+                <i class="fa fa-search" onclick="
+                    if(_('search-input').value !== ''){
+                      _('search-form').submit();
+                    } else {
+                      _('search-input').focus();
+                    }">
+
+                </i>
+            </button>
+        </label>
+
 
         <input type="text"
                class="navbar-item"
