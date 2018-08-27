@@ -44,7 +44,7 @@
 </style>
 <nav class="navbar navbar-dark bg-dark justify-content-between">
     <a class="navbar-brand" href="/">
-        <img src="{{env('LOGO_URL', asset('/img/logo_white.png'))}}" height="28">
+        <img src="{{env('LOGO_URL', asset('/img/logo_white.png'))}}" height="28" alt="logo">
         <span class="d-none d-sm-inline"> {{config('app.name')}}</span>
     </a>
     <form action="{{route('ad.search')}}" method="get" id="search-form" class="search form-inline">
