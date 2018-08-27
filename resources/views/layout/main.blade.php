@@ -25,7 +25,7 @@
     <meta property="og:image" content="@yield('og-image', config('app.logo') ?? asset('/img/logo_white.png'))"/>
     <meta property="og:type" content="article"/>
 
-    <script src="{{asset("js/app.js")}}"></script>
+    <script src="{{asset("js/app.js")}}" async></script>
     {!! \NoCaptcha::renderJs() !!}
     <link rel="icon" type="image/png" href="{{config('app.favicon') ?? asset('/img/logo.png')}}"/>
     <link rel="stylesheet" href="{{asset("/css/app.css")}}"/>
@@ -72,16 +72,25 @@
         return document.getElementById(id);
     }
 
-    jQuery(document).ready(function ($) {
-        $('.clickable-row').click(function () {
-            window.location = $(this).data('href');
-        });
-    });
+    makeColumnsClickable();
+
+    function makeColumnsClickable () {
+        if (window.$) {
+            $(document).ready(function ($) {
+                $('.clickable-row').click(function () {
+                    window.location = $(this).data('href');
+                });
+            });
+        } else {
+            window.setTimeout(makeColumnsClickable, 100);
+        }
+    }
 </script>
 <noscript>
     We try our best to make this website work without javascript.
     However if you want to write or reply to an ad, we have to ask you to activate it
     in order to solve the security captcha. We might replace recaptcha with a homebrewed non-js
     variant one day, but currently the focus is on other parts of this website.
+</noscript>
 </body>
 </html>
