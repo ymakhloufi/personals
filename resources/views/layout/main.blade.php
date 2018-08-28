@@ -6,7 +6,7 @@
     <script>
         window.dataLayer = window.dataLayer || [];
 
-        function gtag () {
+        function gtag() {
             dataLayer.push(arguments);
         }
 
@@ -31,22 +31,6 @@
     <link rel="stylesheet" href="{{asset("/css/app.css")}}"/>
     <link rel="stylesheet" href="/css/checbox.css">
     <title>@yield('title', config('app.name'))</title>
-
-    <!-- Styles -->
-    <style>
-        html, body {
-            background-color: #fff;
-            color: #636b6f;
-            font-family: 'Tahoma', sans-serif;
-            font-size: 11pt;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .position-ref {
-            position: relative;
-        }
-    </style>
 </head>
 <body>
 @include('layout._navigation')
@@ -68,13 +52,13 @@
 </footer>
 
 <script language="JavaScript" defer>
-    function _ (id) {
+    function _(id) {
         return document.getElementById(id);
     }
 
     makeColumnsClickable();
 
-    function makeColumnsClickable () {
+    function makeColumnsClickable() {
         if (window.$) {
             $(document).ready(function ($) {
                 $('.clickable-row').click(function () {

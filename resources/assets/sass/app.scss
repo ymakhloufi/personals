@@ -5,7 +5,103 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+html, body {
+  background-color: #fff;
+  color: #636b6f;
+  font-family: 'Tahoma', sans-serif;
+  font-size: 11pt;
+  height: 100vh;
+  margin: 0;
+}
+
+.position-ref {
+  position: relative;
+}
+
 a:not(.btn), a:active:not(.btn), a:hover:not(.btn), a:visited:not(.btn) {
   color: #eebb00;
 }
 
+.img-placeholder {
+  width: 66px;
+  height: 66px;
+  border: 1px solid #aaa;
+  padding-left: 7px;
+  padding-top: 3px;
+  color: #fde8a1;
+}
+
+.img-preview {
+  border: 1px solid #aaa;
+  max-width: 100%;
+  height: auto;
+  padding: 5px;
+}
+
+.title-link {
+  font-size: 1.5em;
+}
+
+.author {
+  font-style: italic;
+  font-size: 0.8em;
+}
+
+.location {
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.tags {
+  font-size: 0.8em;
+}
+
+.tags > a {
+  margin-right: 5px;
+}
+
+.tag {
+  display: inline-block;
+  margin: 0 10px;
+  line-height: 90%;
+}
+
+.size1 {
+  font-size: 9pt;
+}
+
+.size2 {
+  font-size: 11pt;
+}
+
+.size3 {
+  font-size: 13pt;
+}
+
+.size4 {
+  font-size: 15pt;
+}
+
+.size5 {
+  font-size: 17pt;
+}
+
+.size6 {
+  font-size: 19pt;
+}
+
+.size7 {
+  font-size: 21pt;
+}
+
+.size8 {
+  font-size: 23pt;
+}
+
+.size9 {
+  font-size: 25pt;
+}
+
+.size10 {
+  font-size: 27pt;
+}
