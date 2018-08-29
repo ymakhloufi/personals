@@ -18,6 +18,4 @@
 {{ __('View Your Ad') }}
 @endcomponent
 
-{{ __('Best,') }}<br>
-{{ config('app.name') }}
 @endcomponent

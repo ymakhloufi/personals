@@ -10,6 +10,3 @@
 
 {{ __('Link to your ad:') }}
 {{route('ad.show', ['ad' => $ad, 'slug' => $ad->getSlug()])}}
-
-{{ __('Best,') }}
-{{ config('app.name') }}
