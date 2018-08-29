@@ -48,9 +48,9 @@ class Picture extends Model
         if (in_array(strtolower($file->getClientOriginalExtension()), ['jpg', 'jpeg', 'png', 'gif'])) {
             $image = (new ImageManager())->make($file->getRealPath());
 
-            if ($image->getWidth() > $image->getHeight()) {
+            if ($image->getWidth() >= $image->getHeight()) {
                 $image->resize(static::IMAGE_MAX_WIDTH, null, $constraints);
-            } elseif ($image->getHeight() > $image->getWidth()) {
+            } else {
                 $image->resize(null, static::IMAGE_MAX_HEIGHT, $constraints);
             }
 
