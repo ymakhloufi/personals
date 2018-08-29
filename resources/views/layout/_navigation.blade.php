@@ -51,10 +51,10 @@
         <label for="search-input">
             <button type="submit" class="btn btn-link" style="color: inherit; padding: 0;">
                 <i class="fa fa-search" onclick="
-                    if(_('search-input').value !== ''){
-                      _('search-form').submit();
+                    if(document.getElementById('search-input').value !== ''){
+                      document.getElementById('search-form').submit();
                     } else {
-                      _('search-input').focus();
+                      document.getElementById('search-input').focus();
                     }">
 
                 </i>
@@ -69,7 +69,7 @@
                id="search-input"
                autocomplete="off"
         />
-        <i class="fa fa-times" onclick="_('search-form').reset();"></i>
+        <i class="fa fa-times" onclick="document.getElementById('search-form').reset();"></i>
     </form>
     <a class="btn btn-warning" href="/ads/write">
         <span class="icon"><i class="fa fa-pencil-alt"></i></span>

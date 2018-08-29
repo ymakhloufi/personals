@@ -250,7 +250,8 @@
     </div>
     <script language="JavaScript">
         function unhide(id) {
-            _(id).style.display = '';
+            console.log(id);
+            document.getElementById(id).style.display = '';
         }
 
         function preview(input, previewId) {

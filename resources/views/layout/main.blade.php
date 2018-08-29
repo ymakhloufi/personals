@@ -27,7 +27,7 @@
 
     <script src="{{asset("js/app.js")}}" async></script>
     {!! \NoCaptcha::renderJs() !!}
-    <link rel="icon" type="image/png" href="{{config('app.favicon') ?? asset('/img/logo.png')}}"/>
+    <link rel="icon" type="image/png" href="{{config('app.favicon') ?? asset('/img/favicon.png')}}"/>
     <link rel="stylesheet" href="{{asset("/css/app.css")}}"/>
     <link rel="stylesheet" href="/css/checbox.css">
     <title>@yield('title', config('app.name'))</title>
@@ -52,10 +52,6 @@
 </footer>
 
 <script language="JavaScript" defer>
-    function _(id) {
-        return document.getElementById(id);
-    }
-
     makeColumnsClickable();
 
     function makeColumnsClickable() {

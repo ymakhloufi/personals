@@ -13,10 +13,11 @@
             <div class="col-sm-3 mb-4" style="border-right: 1px solid lightgray;">
                 @if($ad->pictures()->exists())
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 text-center">
+                            <i id="img_spinner" class="fa fa-spinner fa-spin fa-4x d-none"></i>
                             <a href="{{$ad->pictures()->first()->url}}" target="_blank" id="preview_link">
                                 <img src="{{$ad->pictures()->first()->url}}" style="width: 100%;" id="preview_img"
-                                     at="preview image">
+                                     alt="preview image">
                             </a>
                         </div>
                     </div>
@@ -24,7 +25,7 @@
                         <div class="row mt-3 ml-2">
                             @foreach($ad->pictures as $pic)
                                 <div style="width:30%;" class="m-1">
-                                    <a href="javascript: swapImg('{{$pic->url}}');">
+                                    <a href="javascript: swapImg('{{$pic->url}}', '{{$pic->thumbnail_url}}');">
                                         <img style="max-width:100%; height:auto;"
                                              src="{{$pic->thumbnail_url ?? $pic->url}}"
                                              alt="{{$ad->author_name}} thumbnail image"/>
@@ -203,9 +204,25 @@
                 encodedEmail.replace(/.{1,2}/g, (temp) => String.fromCharCode(parseInt(temp, 16)));
         }
 
-        function swapImg(url) {
-            _('preview_img').src = url;
-            _('preview_link').href = url;
+        function swapImg(url, thumbUrl) {
+            $('#preview_img').attr("src", thumbUrl);
+            $('#preview_img').attr("src", url);
+            $('#preview_link').attr("href", url);
+
+            window.setTimeout(function () {
+                if (document.getElementById("preview_img").complete) {
+                    return;
+                }
+
+                $('#img_spinner').removeClass('d-none');
+
+                var interval = setInterval(function () {
+                    if (document.getElementById("preview_img").complete) {
+                        $('#img_spinner').addClass('d-none');
+                        clearInterval(interval);
+                    }
+                }, 100);
+            }, 200);
         }
     </script>
 @endsection
