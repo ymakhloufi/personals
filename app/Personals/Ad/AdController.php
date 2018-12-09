@@ -58,7 +58,9 @@ class AdController extends Controller
             $request->get('message')
         );
 
-        session()->flash('success', __('Your message has been sent. Good Luck!'));
+        session()->flash('success', __('Your message has been sent. Good Luck! <br><br>' .
+                                       'Did you know: <a href="/ads/write">writing an own ad</a> gets you a lot higher' .
+                                       'change to get in touch with likeminded people!'));
 
         return redirect('/');
     }

@@ -142,9 +142,10 @@
                                 <div class=" checkbox checbox-switch switch-warning">
                                     <label style="cursor:pointer; white-space: nowrap;">
                                         <input type="checkbox" name="commercial"
+                                               onchange="markCommercial(this.checked);"
                                                 {{old('commercial') ? 'checked' : ''}}>
                                         <span></span>
-                                        Commercial Ad
+                                        Ad Involves Money
                                     </label>
                                 </div>
                             </div>
@@ -243,7 +244,12 @@
             <div class="row">
                 <div class="mt-3 col-sm-12 text-center">
                     <div style="transform:scale(0.95);transform-origin:0 0;"> {!! NoCaptcha::display() !!}</div>
-                    <button type="submit" class="btn btn-warning btn-lg">Submit</button>
+                    <button id="submitter" type="submit" class="btn btn-warning btn-lg">Submit</button>
+                    <div>
+                        <small>By placing an ad you agree to receive weekly updates about new ads on this site. You can
+                            unsubscribe at any time!
+                        </small>
+                    </div>
                 </div>
             </div>
         </form>
@@ -252,6 +258,17 @@
         function unhide(id) {
             console.log(id);
             document.getElementById(id).style.display = '';
+        }
+
+        function markCommercial(isCommercial) {
+            let button = document.getElementById('submitter');
+            if (isCommercial) {
+                button.disabled = true;
+                button.innerHTML = "We currently don't allow ads involving offers or requests for money.";
+            } else {
+                button.disabled = false;
+                button.innerHTML = "Submit";
+            }
         }
 
         function preview(input, previewId) {

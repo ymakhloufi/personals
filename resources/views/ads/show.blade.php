@@ -163,6 +163,11 @@
                             <div class="col-sm-12 text-center">
                                 <div style="transform:scale(0.95);transform-origin:0 0;"> {!! NoCaptcha::display() !!}</div>
                                 <button type="submit" class="btn btn-warning">Send Reply</button>
+                                <div>
+                                    <small>By replying to an ad you agree to receive weekly updates about new ads on
+                                        this site. You can unsubscribe at any time!
+                                    </small>
+                                </div>
                             </div>
                         </div>
                     </form>
