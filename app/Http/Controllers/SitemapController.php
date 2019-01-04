@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Personals\Ad\Ad;
-use Personals\Ad\Tag;
 
 class SitemapController extends Controller
 {
@@ -14,6 +13,7 @@ class SitemapController extends Controller
             "Disallow:\n" .
             "Allow: /\n" .
             "Disallow: /ads/*/publish/*\n" .
+            "Disallow: /tag/*\n" .
             "\n" .
             "Sitemap: " . route('sitemap');
 
@@ -33,11 +33,6 @@ class SitemapController extends Controller
         foreach (Ad::where('status', Ad::STATUS_CONFIRMED)->get() as $ad) {
             $xml .= "\t<url>\n\t\t<loc>" .
                     route('ad.show', ['ad' => $ad, 'slug' => $ad->getSlug()]) .
-                    "</loc>\n\t</url>\n";
-        }
-        foreach (Tag::all() as $tag) {
-            $xml .= "\t<url>\n\t\t<loc>" .
-                    route('tag.show', ['tag' => $tag->tag]) .
                     "</loc>\n\t</url>\n";
         }
         $xml .= "</urlset>";
