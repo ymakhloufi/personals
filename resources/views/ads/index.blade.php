@@ -2,7 +2,8 @@
 
 @section('title', $title)
 
-@section('content')<div class="offset-sm-2 col-sm-8 mb-4" style="text-align: center;">{!! $tagCloud !!}</div>
+@section('content')
+    <div class="offset-sm-2 col-sm-8 mb-4" style="text-align: center;">{!! $tagCloud !!}</div>
 
 
     @if(isset($tag))
@@ -33,8 +34,10 @@
                 <tr class="clickable-row" style="cursor: pointer;" data-href='/ads/{{$ad->id}}/{{$ad->getSlug()}}'>
                     <td class="d-none d-sm-table-cell">
                         @if($ad->pictures()->exists())
-                            <img src="{{$ad->pictures()->first()->thumbnail_url ?? $ad->pictures()->first()->url}}"
-                                 class="img-preview" alt="{{$ad->author_name}} thumbnail image"/>
+                            <a href="/ads/{{$ad->id}}/{{$ad->getSlug()}}">
+                                <img src="{{$ad->pictures()->first()->thumbnail_url ?? $ad->pictures()->first()->url}}"
+                                     class="img-preview" alt="{{$ad->author_name}} thumbnail image"/>
+                            </a>
                         @else
                             <div class="img-placeholder"><i class=" fa fa-user fa-4x"></i></div>
                         @endif
