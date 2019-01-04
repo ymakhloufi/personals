@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ReplyAdRequest;
 use App\Http\Requests\StoreAdRequest;
 use Carbon\Carbon;
+use Cocur\Slugify\Slugify;
 
 class AdController extends Controller
 {
@@ -142,9 +143,14 @@ class AdController extends Controller
         $ad->save();
 
         // tags are POSTed as a comma-separated list
-        $tags = array_filter(array_map('trim', explode(',', $request->get('tags'))));
+        if (strpos($request->get('tags'), ",") !== false) {
+            $tags = array_filter(array_map('trim', explode(',', $request->get('tags'))));
+        } else {
+            $tags = array_filter(array_map('trim', explode(' ', $request->get('tags'))));
+        }
         foreach ($tags as $tagString) {
-            $tag = Tag::firstOrCreate(['tag' => $tagString]);
+            $tagString = (new Slugify(['lowercase' => false]))->slugify(ucfirst($tagString));
+            $tag       = Tag::firstOrCreate(['tag' => $tagString]);
             $ad->tags()->sync([$tag->id], false);
         }
 
