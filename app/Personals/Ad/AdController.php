@@ -7,6 +7,7 @@ use App\Http\Requests\ReplyAdRequest;
 use App\Http\Requests\StoreAdRequest;
 use Carbon\Carbon;
 use Cocur\Slugify\Slugify;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class AdController extends Controller
 {
@@ -82,6 +83,9 @@ class AdController extends Controller
     public function showByTag(string $tag)
     {
         $tag = Tag::where('tag', '=', $tag)->orderByDesc('id')->first();
+        if (!$tag) {
+            throw new NotFoundHttpException("Tag Not Found!");
+        }
         $ads = $tag->ads()->where('status', Ad::STATUS_CONFIRMED)->where('expires_at', '>', Carbon::now());
 
         return view('ads.index', [
