@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Personals\Ad\Tag;
 
-class BackfillThumbnails extends Migration
+class FixTags extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class BackfillThumbnails extends Migration
     {
         foreach (Tag::all() as $tag) {
             if (strpos($tag->tag, "/") !== false) {
-                $tag->tag = str_replace_array("/", "-", $tag->tag);
+                $tag->tag = str_replace("/", "-", $tag->tag);
                 $tag->save();
             }
         }
