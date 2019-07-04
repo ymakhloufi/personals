@@ -7,3 +7,6 @@ node_modules
 public/mix-manifest.json
 public/css/app.css
 public/js/app.js
+
+# sqlite db
+database/homestead

@@ -89,6 +89,10 @@
     <div class="alert alert-success m-5 text-center">{!! session()->get('success') !!}</div>
 @endif
 
+@if(session()->has('warning'))
+    <div class="alert alert-warning m-5 text-center">{{session()->get('warning')}}</div>
+@endif
+
 @if(session()->has('error'))
     <div class="alert alert-danger m-5 text-center">{{session()->get('error')}}</div>
 @endif
