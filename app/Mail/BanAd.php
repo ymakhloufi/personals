@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Personals\Ad\Ad;
 
-class PublishAd extends Mailable
+class BanAd extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -23,7 +23,7 @@ class PublishAd extends Mailable
     public function build()
     {
         return $this->to($this->ad->author_email)
-            ->markdown('emails.publishAdMd')
-            ->text('emails.publishAdPlain');
+            ->markdown('emails.banAdMd')
+            ->text('emails.banAdPlain');
     }
 }

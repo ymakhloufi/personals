@@ -43,7 +43,7 @@ class AdController extends Controller
 
         return view('ads.search', [
             'ads'      => Ad::search($query)->filter(function (Ad $ad) {
-                return $ad->isPublished() and !$ad->isExpired();    // remove expired and unconfirmed ads
+                return $ad->isActive();    // remove expired and unconfirmed ads
             }),
             'tagCloud' => Tag::getTagCloud(),
             'title'    => $query,
@@ -72,11 +72,28 @@ class AdController extends Controller
 
     public function show(Ad $ad)
     {
-        if ($ad->status !== Ad::STATUS_CONFIRMED) {
+        if ($ad->status === Ad::STATUS_PENDING) {
             return response(__("This ad has not been confirmed yet - please check your email inbox"), 403);
         }
 
         return view('ads.show', ['ad' => $ad]);
+    }
+
+
+    public function ban(Ad $ad)
+    {
+        if (!auth()->check()) {
+            return redirect()->back()->withErrors(["Only Authenticated Administrators can do this!"]);
+        }
+
+        if ($ad->isBanned()) {
+            return redirect()->back()->withErrors(["This ad is already banned!"]);
+        }
+
+        $ad->ban();
+        session()->flash('warning', "This ad is banned now!");
+
+        return redirect()->route("ad.show", ['ad' => $ad]);
     }
 
 
@@ -125,6 +142,15 @@ class AdController extends Controller
     {
         $adminPublish = (\Auth::check() and $request->get('admin_publish'));
 
+        if ($bannedUntil = Ad::getAuthorBannedUntil($request->get('author_email'))) {
+            return redirect()->back()->withErrors([
+                'Due to violations of our community standards, you have been banned from 
+                publishing ads on our platform. You can try again after ' . $bannedUntil->toDateString() . '. 
+                Please keep in mind that ads involving financial services and products as well as illegal ads 
+                as per US or EU laws are not tolerated on our platform.',
+            ]);
+        }
+
         /** @var Ad $ad */
         $ad = Ad::make($request->only([
             'title',
@@ -169,7 +195,7 @@ class AdController extends Controller
             return redirect()->route('ad.show', ['ad' => $ad, 'slug' => $ad->getSlug()]);
         } else {
             // send confirmation email
-            $ad->sendConformationEmail($request->get('author_email'));
+            $ad->sendConformationEmail();
 
             session()->flash(
                 'success',
