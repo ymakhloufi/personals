@@ -2,8 +2,10 @@
 
 namespace Personals\Ad;
 
+use App\Mail\BanAd;
 use App\Mail\PublishAd;
 use App\Mail\ReplyAd;
+use Carbon\Carbon;
 use Cocur\Slugify\Slugify;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\ImageManager;
 use Propaganistas\LaravelPhone\PhoneNumber;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 /**
  * Personals\User\User
@@ -48,6 +51,9 @@ class Ad extends Model
 
     const STATUS_PENDING   = 'pending';
     const STATUS_CONFIRMED = 'confirmed';
+    const STATUS_BANNED    = 'banned';
+
+    const EMAIL_WEEKS_BANNED_AFTER_VIOLATION = 4;
 
 
     public static function search($query): \Illuminate\Support\Collection
@@ -70,6 +76,52 @@ class Ad extends Model
         $thirdPrioAds = Ad::where('text', 'like', '%' . $query . '%')->get();
 
         return $firstPrioAds->merge($secondPrioAds)->merge($thirdPrioAds);
+    }
+
+
+    public function ban(): void
+    {
+        if (!auth()->check()) {
+            throw new UnauthorizedHttpException("", "Only Authenticated Administrators can ban an ad!");
+        }
+
+        $this->update(['status' => static::STATUS_BANNED]);
+        $this->sendBanEmail();
+    }
+
+
+    public static function getAuthorBannedUntil(string $email): ?Carbon
+    {
+        $latestBannedAd = new Carbon(static::query()->where('author_email', $email)
+            ->where('status', static::STATUS_BANNED)
+            ->where('created_at', '>', now()->subWeeks(static::EMAIL_WEEKS_BANNED_AFTER_VIOLATION))
+            ->max('created_at'));
+
+        return $latestBannedAd ? $latestBannedAd->addWeeks(static::EMAIL_WEEKS_BANNED_AFTER_VIOLATION) : null;
+    }
+
+
+    public function isBanned(): bool
+    {
+        return $this->status === static::STATUS_BANNED;
+    }
+
+
+    public function isExpired(): bool
+    {
+        return $this->expires_at->isPast();
+    }
+
+
+    public function isPublished(): bool
+    {
+        return $this->status === static::STATUS_CONFIRMED;
+    }
+
+
+    public function isActive(): bool
+    {
+        return $this->isPublished() and !$this->isExpired();
     }
 
 
@@ -187,18 +239,6 @@ class Ad extends Model
     }
 
 
-    public function isExpired(): bool
-    {
-        return $this->expires_at->isPast();
-    }
-
-
-    public function isPublished()
-    {
-        return $this->status === static::STATUS_CONFIRMED;
-    }
-
-
     public function getSlug(): string
     {
         return ((new Slugify())->slugify($this->title));
@@ -243,9 +283,15 @@ class Ad extends Model
     }
 
 
-    public function sendConformationEmail(string $email): void
+    public function sendConformationEmail(): void
     {
-        \Mail::to($email)->send(new PublishAd($this));
+        \Mail::send(new PublishAd($this));
+    }
+
+
+    public function sendBanEmail()
+    {
+        \Mail::send(new BanAd($this));
     }
 
 

@@ -28,7 +28,7 @@
                                     <a href="javascript: swapImg('{{$pic->url}}', '{{$pic->thumbnail_url}}');">
                                         <img style="max-width:100%; height:auto;"
                                              src="{{$pic->thumbnail_url ?? $pic->url}}"
-                                             alt="{{$ad->author_name}} thumbnail image"/>
+                                             alt="{{$ad->author_name}} thumbnail image" />
                                     </a>
                                 </div>
                             @endforeach
@@ -58,7 +58,7 @@
                             @endif
                         </span>
                         <span style=" text-align: right; display:inline-block; float:right;">
-                            @if(!$ad->isExpired())
+                            @if($ad->isActive())
                                 @if($ad->author_phone)
                                     <span style="white-space: nowrap;">
                                         &nbsp; <i class="fa fa-phone"></i>
@@ -128,9 +128,9 @@
                     </div>
                 </div>
             </div>
-            <div style='padding-top: 20px;'>
-                {!! $ad->getShareLinkMarkup() !!}
-            </div>
+        </div>
+        <div style='padding-top: 20px;'>
+            {!! $ad->getShareLinkMarkup() !!}
         </div>
 
         <div class="row mt-4 border-top" style="padding-top: 20px;" id="reply">
@@ -138,6 +138,13 @@
                 @if($ad->isExpired())
                     <div align="center">
                         <b>This Ad has expired. You can no longer reply to it!</b>
+                    </div>
+                @elseif($ad->isBanned())
+                    <div align="center" style="max-width: 600px; margin:auto;">
+                        This Ad has been removed due to a <b>violation of our community standards</b>.<br /><br />
+                        Please note that while we don't censor any texts or pictures, we still <b>do not permit</b>
+                        any ads which express a <b>financial motivation</b> for quality reasons (paid services or
+                        products) or ads that <b>violate the law</b>.
                     </div>
                 @else
                     <form method="post" action="{{route('ad.reply', ['ad' => $ad])}}">
@@ -147,12 +154,12 @@
                             <div class="col-sm-6">
                                 <input class="form-control mt-1" placeholder="Your Name" required name="name"
                                        type="text"
-                                       value="{{old('name')}}"/>
+                                       value="{{old('name')}}" />
                                 <input class="form-control mt-1" placeholder="Your Email Address" required name="email"
                                        value="{{old('email')}}"
-                                       type="email"/>
+                                       type="email" />
                                 <input class="form-control mt-1 mb-1" placeholder="Your Phone Number" name="phone"
-                                       value="{{old('phone')}}"/>
+                                       value="{{old('phone')}}" />
                             </div>
                             <div class="col-sm-6">
                         <textarea class="form-control" placeholder="Your Message" required name="message"
@@ -206,28 +213,28 @@
     <script language="JavaScript">
         function mailTo(encodedEmail) {
             window.location.href = 'mailto:' +
-                encodedEmail.replace(/.{1,2}/g, (temp) => String.fromCharCode(parseInt(temp, 16)));
+                encodedEmail.replace(/.{1,2}/g, (temp) => String.fromCharCode(parseInt(temp, 16)))
         }
 
         function swapImg(url, thumbUrl) {
-            $('#preview_img').attr("src", thumbUrl);
-            $('#preview_img').attr("src", url);
-            $('#preview_link').attr("href", url);
+            $('#preview_img').attr('src', thumbUrl)
+            $('#preview_img').attr('src', url)
+            $('#preview_link').attr('href', url)
 
-            window.setTimeout(function () {
-                if (document.getElementById("preview_img").complete) {
-                    return;
+            window.setTimeout(function() {
+                if (document.getElementById('preview_img').complete) {
+                    return
                 }
 
-                $('#img_spinner').removeClass('d-none');
+                $('#img_spinner').removeClass('d-none')
 
-                var interval = setInterval(function () {
-                    if (document.getElementById("preview_img").complete) {
-                        $('#img_spinner').addClass('d-none');
-                        clearInterval(interval);
+                var interval = setInterval(function() {
+                    if (document.getElementById('preview_img').complete) {
+                        $('#img_spinner').addClass('d-none')
+                        clearInterval(interval)
                     }
-                }, 100);
-            }, 200);
+                }, 100)
+            }, 200)
         }
     </script>
 @endsection
