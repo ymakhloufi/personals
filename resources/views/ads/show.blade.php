@@ -8,7 +8,15 @@
 
 @section('content')
     <div class="container mt-4 p-4" style="border: 1px solid #ddd; border-radius: 10px;">
-        <h1 class="text-center">{{$ad->title}}</h1>
+        <h1 class="text-center">
+            {{$ad->title}}
+            @if(auth()->check())
+                <form method="post" action="{{route('ad.ban', ['ad' => $ad])}}" style="display: inline; float:right;">
+                    {{csrf_field()}}
+                    <button type="submit" class="btn btn-danger">Ban</button>
+                </form>
+            @endif
+        </h1>
         <div class="row">
             <div class="col-sm-3 mb-4" style="border-right: 1px solid lightgray;">
                 @if($ad->pictures()->exists())
@@ -142,7 +150,7 @@
                 @elseif($ad->isBanned())
                     <div align="center" style="max-width: 600px; margin:auto;">
                         This Ad has been removed due to a <b>violation of our community standards</b>.<br /><br />
-                        Please note that while we don't censor any texts or pictures, we still <b>do not permit</b>
+                        Please note that while we don't censor any text or pictures, we still <b>do not permit</b>
                         any ads which express a <b>financial motivation</b> for quality reasons (paid services or
                         products) or ads that <b>violate the law</b>.
                     </div>

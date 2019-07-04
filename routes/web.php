@@ -13,6 +13,7 @@ Route::group(['namespace' => '\Personals'], function () {
         Route::post('/write', 'Ad\AdController@store');
         Route::get('/{ad}/publish/{token}', 'Ad\AdController@publish')->name('ad.publish');
         Route::post('/{ad}/reply', 'Ad\AdController@reply')->name('ad.reply');
+        Route::post('/{ad}/ban', 'Ad\AdController@ban')->name('ad.ban');
         Route::get('/{ad}/{slug?}', 'Ad\AdController@show')->name('ad.show');
     });
 

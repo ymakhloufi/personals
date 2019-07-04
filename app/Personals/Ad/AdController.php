@@ -80,6 +80,23 @@ class AdController extends Controller
     }
 
 
+    public function ban(Ad $ad)
+    {
+        if (!auth()->check()) {
+            return redirect()->back()->withErrors(["Only Authenticated Administrators can do this!"]);
+        }
+
+        if ($ad->isBanned()) {
+            return redirect()->back()->withErrors(["This ad is already banned!"]);
+        }
+
+        $ad->ban();
+        session()->flash('warning', "This ad is banned now!");
+
+        return redirect()->route("ad.show", ['ad' => $ad]);
+    }
+
+
     public function showByTag(string $tag)
     {
         $tag = Tag::where('tag', '=', $tag)->orderByDesc('id')->first();
