@@ -92,12 +92,14 @@ class Ad extends Model
 
     public static function getAuthorBannedUntil(string $email): ?Carbon
     {
-        $latestBannedAd = new Carbon(static::query()->where('author_email', $email)
+        $latestBannedAd = static::query()->where('author_email', $email)
             ->where('status', static::STATUS_BANNED)
             ->where('created_at', '>', now()->subWeeks(static::EMAIL_WEEKS_BANNED_AFTER_VIOLATION))
-            ->max('created_at'));
+            ->max('created_at');
 
-        return $latestBannedAd ? $latestBannedAd->addWeeks(static::EMAIL_WEEKS_BANNED_AFTER_VIOLATION) : null;
+        return $latestBannedAd
+            ? (new Carbon($latestBannedAd))->addWeeks(static::EMAIL_WEEKS_BANNED_AFTER_VIOLATION)
+            : null;
     }
 
 
